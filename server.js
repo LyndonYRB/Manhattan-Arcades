@@ -1,5 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
+const authenticateToken = require('./authMiddleware');
 const jwt = require('jsonwebtoken');
 const { Pool } = require('pg');
 require('dotenv').config();
@@ -7,6 +8,7 @@ require('dotenv').config();
 const app = express();
 app.use(express.json()); // Middleware to parse JSON bodies
 
+// Configure the PostgreSQL connection pool
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -42,6 +44,54 @@ app.post('/api/auth/register', async (req, res) => {
     });
 
     res.status(201).json({ token, user: newUser.rows[0] });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// User login route
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Check if the user exists
+    const user = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    if (user.rows.length === 0) {
+      return res.status(400).json({ msg: 'Invalid credentials' });
+    }
+
+    // Compare the provided password with the hashed password in the database
+    const isMatch = await bcrypt.compare(password, user.rows[0].password);
+    if (!isMatch) {
+      return res.status(400).json({ msg: 'Invalid credentials' });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign({ userId: user.rows[0].id }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    });
+
+    res.json({ token, user: user.rows[0] });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// Check if user exists route
+app.get('/api/auth/check-user', async (req, res) => {
+  try {
+    const { email } = req.query;
+
+    // Query the database to see if the user exists
+    const user = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+
+    if (user.rows.length > 0) {
+      return res.status(200).json({ exists: true, user: user.rows[0] });
+    } else {
+      return res.status(200).json({ exists: false });
+    }
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
@@ -131,26 +181,8 @@ app.delete('/api/arcades/:id', async (req, res) => {
   }
 });
 
+// Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-});
-
-// Check if user exists route
-app.get('/api/auth/check-user', async (req, res) => {
-  try {
-    const { email } = req.query;
-
-    // Query the database to see if the user exists
-    const user = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-
-    if (user.rows.length > 0) {
-      return res.status(200).json({ exists: true, user: user.rows[0] });
-    } else {
-      return res.status(200).json({ exists: false });
-    }
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
-  }
 });
