@@ -266,4 +266,27 @@ app.delete('/api/comments/:commentId', authenticateToken, async (req, res) => {
   }
 });
 
+// Get user profile
+app.get('/api/profile', authenticateToken, async (req, res) => {
+  try {
+    // Fetch user details
+    const user = await pool.query('SELECT id, username, email, created_at FROM users WHERE id = $1', [req.user.userId]);
+
+    if (user.rows.length === 0) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    // Fetch user's comments and ratings
+    const comments = await pool.query('SELECT arcade_id, comment, rating, created_at FROM comments WHERE user_id = $1 ORDER BY created_at DESC', [req.user.userId]);
+
+    res.json({
+      user: user.rows[0],
+      comments: comments.rows
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
 
