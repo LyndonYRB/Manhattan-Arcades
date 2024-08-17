@@ -186,3 +186,84 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+// Add a comment to an arcade
+app.post('/api/arcades/:id/comments', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { comment, rating } = req.body;
+
+    // Add the comment/rating to the database
+    const newComment = await pool.query(
+      'INSERT INTO comments (user_id, arcade_id, comment, rating) VALUES ($1, $2, $3, $4) RETURNING *',
+      [req.user.userId, id, comment, rating]
+    );
+
+    res.json(newComment.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+app.get('/api/arcades/:id/comments', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Fetch comments for a specific arcade
+    const comments = await pool.query(
+      'SELECT * FROM comments WHERE arcade_id = $1 ORDER BY created_at DESC',
+      [id]
+    );
+
+    res.json(comments.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+app.put('/api/comments/:commentId', authenticateToken, async (req, res) => {
+  try {
+    const { commentId } = req.params;
+    const { comment, rating } = req.body;
+
+    // Update the comment in the database
+    const updatedComment = await pool.query(
+      'UPDATE comments SET comment = $1, rating = $2, updated_at = NOW() WHERE id = $3 AND user_id = $4 RETURNING *',
+      [comment, rating, commentId, req.user.userId]
+    );
+
+    if (updatedComment.rows.length === 0) {
+      return res.status(404).send('Comment not found or not authorized');
+    }
+
+    res.json(updatedComment.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+app.delete('/api/comments/:commentId', authenticateToken, async (req, res) => {
+  try {
+    const { commentId } = req.params;
+
+    // Delete the comment from the database
+    const deletedComment = await pool.query(
+      'DELETE FROM comments WHERE id = $1 AND user_id = $2 RETURNING *',
+      [commentId, req.user.userId]
+    );
+
+    if (deletedComment.rows.length === 0) {
+      return res.status(404).send('Comment not found or not authorized');
+    }
+
+    res.json({ message: 'Comment deleted successfully' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+
