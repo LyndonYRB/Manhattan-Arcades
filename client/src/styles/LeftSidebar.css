@@ -1,0 +1,39 @@
+.left-sidebar {
+  background-color: var(--bar-background-color);
+  width: 60px;
+  height: 100vh;
+  transition: width 0.3s ease, padding 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  overflow-x: hidden;
+  padding-top: 90px; /* Adjust this value to match the height of the title bar */
+}
+
+.left-sidebar.expanded {
+  width: 200px;
+}
+
+.left-sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.left-sidebar ul li {
+  background-color: rgb(43, 42, 42);
+  color: transparent; /* Make the text invisible initially */
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+  transition: color 0.3s ease; /* Transition for text color */
+}
+
+.left-sidebar.expanded ul li {
+  color: rgb(229, 229, 229); /* Make the text visible when expanded */
+}
+
+.left-sidebar ul li:hover {
+  background-color: #4b4b4b;
+}

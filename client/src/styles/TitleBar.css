@@ -1,0 +1,15 @@
+
+.title-bar {
+  z-index: 1000; /* Keep it above the other content */
+  background-color: var(--bar-background-color);
+  color: white;
+  text-align: center;
+  padding: 1px 0;
+  font-size: 15px;
+  font-weight: bold;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+ 
+}

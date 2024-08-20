@@ -1,0 +1,38 @@
+.home-page-content {
+  margin-left: 220px; /* Adjust to match the expanded width of the left sidebar */
+  margin-right: 220px; /* Adjust to match the expanded width of the right sidebar */
+  margin-top: 100px;
+  padding: 10px;
+  text-align: center;
+}
+
+.arcade-info {
+  background-color: rgb(97, 96, 96);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.arcade-info h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.arcade-info p {
+  margin-bottom: 5px;
+}
+
+.arcade-info .rating {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.arcade-info .more-info {
+  margin-top: 15px;
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #adabab;
+  color: rgb(7, 6, 6);
+  text-decoration: none;
+  border-radius: 5px;
+}
