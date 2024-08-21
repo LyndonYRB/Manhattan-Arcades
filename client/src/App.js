@@ -14,11 +14,6 @@ function App() {
   const [user, setUser] = useState(null); // Replace with actual user state management
   const [selectedArcade, setSelectedArcade] = useState(null); // State to hold the selected arcade
 
-  const arcades = [
-    // Your list of arcade objects here
-    // Example: { id: 1, name: "Arcade Name", address: "123 Main St", rating: 4.5 }
-  ];
-
   useEffect(() => {
     // Simulate an initial data fetch
     setTimeout(() => {
@@ -33,12 +28,12 @@ function App() {
   return (
     <Router>
       <TitleBar />
-      <LeftSidebar arcades={arcades} onSelectArcade={setSelectedArcade} />
+      <LeftSidebar arcades={[]} onSelectArcade={setSelectedArcade} />
       <RightSidebar user={user} onLogout={() => setUser(null)} />
       <Routes>
         <Route path="/" element={<HomePage selectedArcade={selectedArcade} />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/arcade/:id" element={<ArcadePage />} />
+        <Route path="/arcades/:id" element={<ArcadePage />} /> {/* Corrected this route */}
       </Routes>
     </Router>
   );

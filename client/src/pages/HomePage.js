@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/HomePage.css';
 
 const HomePage = ({ selectedArcade }) => {
@@ -9,7 +10,7 @@ const HomePage = ({ selectedArcade }) => {
           <h2>{selectedArcade.name}</h2>
           <p>{selectedArcade.address}</p>
           <p>Average Rating: {selectedArcade.rating} stars</p>
-          <a href={`/arcades/${selectedArcade.id}`} className="more-info">More Info</a>
+          <Link to={`/arcades/${selectedArcade.id}`} className="more-info">More Info</Link>
         </div>
       ) : (
         <p>Please select an arcade from the list.</p>
@@ -19,3 +20,4 @@ const HomePage = ({ selectedArcade }) => {
 };
 
 export default HomePage;
+

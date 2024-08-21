@@ -1,0 +1,105 @@
+.arcade-page {
+  background-color: #f0f0f0;
+  padding: 20px;
+  min-height: 100vh;
+  margin-left: 220px;
+  margin-right: 220px;
+  margin-top: 100px;
+  position: relative;
+}
+
+.back-button {
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.arcade-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.arcade-header h1 {
+  font-size: 2.5em;
+  color: #333;
+}
+
+.arcade-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.arcade-description {
+  flex: 2;
+  margin-right: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.arcade-details {
+  flex: 1;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.arcade-slideshow {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.review-section {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.review-section textarea {
+  width: 80%;
+  height: 100px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.star-rating {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.reviews-list {
+  margin-top: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+}
+
+.comment {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.comment p {
+  margin: 5px 0;
+}
