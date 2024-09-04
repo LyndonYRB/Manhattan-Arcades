@@ -1,105 +1,145 @@
 .arcade-page {
-  background-color: #f0f0f0;
-  padding: 20px;
-  min-height: 100vh;
-  margin-left: 220px;
-  margin-right: 220px;
-  margin-top: 100px;
-  position: relative;
-}
-
-.back-button {
-  padding: 10px 20px;
-  background-color: #333;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
 }
 
 .arcade-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  text-align: center;
   margin-bottom: 20px;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 10px;
-}
-
-.arcade-header h1 {
-  font-size: 2.5em;
-  color: #333;
+  font-size: 2em;
+  width: 100%;
 }
 
 .arcade-content {
   display: flex;
   justify-content: space-between;
+  width: 100%;
+  max-width: 1000px;
 }
 
-.arcade-description {
-  flex: 2;
+.arcade-left, .arcade-right {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.arcade-left {
+  flex: 3;
   margin-right: 20px;
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.arcade-details {
-  flex: 1;
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.arcade-right {
+  flex: 2;
+}
+
+.arcade-description, .arcade-slideshow, .review-section, .arcade-info, .reviews-list {
+  margin-bottom: 20px;
 }
 
 .arcade-slideshow {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.review-section {
-  margin-top: 20px;
   display: flex;
-  flex-direction: column;
   align-items: center;
 }
 
-.review-section textarea {
-  width: 80%;
-  height: 100px;
-  margin-bottom: 10px;
+.slideshow-image {
+  width: 480px;
+  height: 250px;
+  border-radius: 10px;
+}
+
+.slide-button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
   padding: 10px;
+}
+
+.review-section textarea {
+  width: 90%; /* Adjusted to prevent overflow */
   border-radius: 5px;
-  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
 .star-rating {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin: 10px 0;
 }
 
-.reviews-list {
-  margin-top: 20px;
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-height: 200px;
-  overflow-y: auto;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 300px;
+.star {
+  font-size: 2rem;
+  cursor: pointer;
+  color: lightgray; /* Unselected stars color */
+  transition: color 0.3s;
+}
+
+.star.filled {
+  color: gold; /* Selected stars color */
+}
+
+
+.submit-review {
+  width: 90%; /* Adjusted to fit the parent div */
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.2em;
+}
+
+.arcade-info p, .reviews-list p {
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.arcade-info-div ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.arcade-info-div ul li {
+  margin-bottom: 5px;
+}
+
+.arcade-info-div strong {
+  display: block;
+  margin-top: 10px;
 }
 
 .comment {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
   margin-bottom: 10px;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 10px;
+}
+
+.comment strong {
+  display: block;
+  font-weight: bold;
 }
 
 .comment p {
   margin: 5px 0;
+}
+
+.back-button {
+  background-color: #007bff;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  margin-top: 10px;
+}
+
+.back-button:hover {
+  background-color: #0056b3;
 }

@@ -1,0 +1,21 @@
+.profile-page {
+    margin-left: 220px; /* Adjust this to match the expanded width of the left sidebar */
+    padding: 20px;
+    display: flex;
+    flex-direction: column; /* Flexbox layout for stacking elements vertically */
+  }
+  
+  .back-button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .back-button:hover {
+    background-color: #555;
+  }
+  

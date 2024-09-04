@@ -4,7 +4,16 @@ import '../styles/HomePage.css';
 
 const HomePage = ({ selectedArcade }) => {
   return (
-    <div className="home-page-content">
+    <div 
+      className="home-page-content"
+      style={{
+        backgroundImage: selectedArcade
+          ? `url(/assets/arcade-images/${selectedArcade.id}-bg.jpg)`
+          : 'none',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top', // Adjust this value as needed
+      }}
+    >
       {selectedArcade ? (
         <div className="arcade-info">
           <h2>{selectedArcade.name}</h2>
@@ -20,4 +29,3 @@ const HomePage = ({ selectedArcade }) => {
 };
 
 export default HomePage;
-

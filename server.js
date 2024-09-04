@@ -79,25 +79,6 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
-// Check if user exists route
-app.get('/api/auth/check-user', async (req, res) => {
-  try {
-    const { email } = req.query;
-
-    // Query the database to see if the user exists
-    const user = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-
-    if (user.rows.length > 0) {
-      return res.status(200).json({ exists: true, user: user.rows[0] });
-    } else {
-      return res.status(200).json({ exists: false });
-    }
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
-  }
-});
-
 // CREATE: Add a new arcade (POST request)
 app.post('/api/arcades', async (req, res) => {
   try {
@@ -181,21 +162,28 @@ app.delete('/api/arcades/:id', async (req, res) => {
   }
 });
 
-// Start the server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
 // Add a comment to an arcade
 app.post('/api/arcades/:id/comments', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     const { comment, rating } = req.body;
 
-    // Add the comment/rating to the database
+    // Check if the user has already submitted a review for this arcade
+    const existingReview = await pool.query(
+      'SELECT * FROM comments WHERE user_id = $1 AND arcade_id = $2',
+      [req.user.userId, id]
+    );
+
+    if (existingReview.rows.length > 0) {
+      return res.status(400).json({ msg: 'You have already submitted a review for this arcade.' });
+    }
+
+    // Add the comment/rating to the database and return the username
     const newComment = await pool.query(
-      'INSERT INTO comments (user_id, arcade_id, comment, rating) VALUES ($1, $2, $3, $4) RETURNING *',
+      `INSERT INTO comments (user_id, arcade_id, comment, rating) 
+       VALUES ($1, $2, $3, $4) 
+       RETURNING id, comment, rating, created_at, 
+       (SELECT username FROM users WHERE id = $1) as username`,
       [req.user.userId, id, comment, rating]
     );
 
@@ -212,7 +200,7 @@ app.get('/api/arcades/:id/comments', async (req, res) => {
 
     // Fetch comments for a specific arcade
     const comments = await pool.query(
-      'SELECT * FROM comments WHERE arcade_id = $1 ORDER BY created_at DESC',
+      'SELECT id, comment, rating, created_at, (SELECT username FROM users WHERE id = comments.user_id) as username FROM comments WHERE arcade_id = $1 ORDER BY created_at DESC',
       [id]
     );
 
@@ -289,4 +277,8 @@ app.get('/api/profile', authenticateToken, async (req, res) => {
   }
 });
 
-
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
