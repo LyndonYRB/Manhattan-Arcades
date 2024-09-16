@@ -8,10 +8,16 @@
   top: 0;
   right: 0;
   overflow-x: hidden; /* Prevent content overflow */
+  display: flex;
+  align-items: center; /* Center the hamburger icon vertically */
+  justify-content: center; /* Center the hamburger icon horizontally */
 }
 
 .right-sidebar.expanded {
-  width: 200px;
+  width: 250px; /* Increase the width of the sidebar when expanded */
+  align-items: flex-start; /* Align items at the top when expanded */
+  justify-content: flex-start;
+  padding: 20px;
 }
 
 .auth-buttons {
@@ -19,6 +25,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .auth-buttons button {
@@ -28,11 +35,42 @@
   color: white;
   border: none;
   cursor: pointer;
-  width: 100px;
+  width: 100%; /* Make the buttons fill the available space */
   text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.auth-buttons button:hover {
+  background-color: #777; /* Slightly lighter background on hover */
 }
 
 .auth-buttons span {
   margin-bottom: 10px;
   color: white;
+}
+
+/* Hamburger button styling */
+.hamburger-button {
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.hamburger-button:hover {
+  color: #777; /* Change the icon color on hover */
+}
+
+/* Adjust the input fields when expanded */
+.auth-buttons input {
+  width: 100%; /* Fill available width */
+  margin: 10px 0;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.auth-buttons .MuiTextField-root {
+  margin: 8px 0;
+  width: 100%;
 }

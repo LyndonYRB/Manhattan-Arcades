@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import '../styles/ProfilePage.css';
 
-const ProfilePage = () => {
+const ProfilePage = ({ user }) => {
   const [reviews, setReviews] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [editedComment, setEditedComment] = useState(''); // For capturing edited comment
-  const [editedRating, setEditedRating] = useState(0); // For capturing edited rating
-  const [reviewIdBeingEdited, setReviewIdBeingEdited] = useState(null); // Track the review being edited
-  const navigate = useNavigate(); // Use navigate for redirection
+  const [editedComment, setEditedComment] = useState('');
+  const [editedRating, setEditedRating] = useState(0);
+  const [reviewIdBeingEdited, setReviewIdBeingEdited] = useState(null);
+
+  const navigate = useNavigate(); // Hook for navigating between pages
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setIsLoggedIn(false);
-      navigate('/'); // Redirect to home page if not logged in
-      return;
-    }
-
-    setIsLoggedIn(true);
-
     const fetchReviews = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setIsLoggedIn(false);
+        return;
+      }
+
+      setIsLoggedIn(true);
+
       try {
         const response = await fetch(`/api/profile`, {
           method: 'GET',
@@ -34,14 +34,14 @@ const ProfilePage = () => {
         }
 
         const data = await response.json();
-        setReviews(data.comments || []); // Safeguard against undefined 'comments'
+        setReviews(data.comments || []);
       } catch (error) {
         console.error('Error fetching reviews:', error);
       }
     };
 
     fetchReviews();
-  }, [navigate]);
+  }, []);
 
   const handleDelete = async (reviewId) => {
     const confirmed = window.confirm("Are you sure you want to delete this review?");
@@ -75,8 +75,8 @@ const ProfilePage = () => {
 
   const handleSaveEdit = async () => {
     const updatedReviewData = {
-      comment: editedComment, // Use the state value for the edited comment
-      rating: editedRating, // Use the state value for the edited rating
+      comment: editedComment,
+      rating: editedRating,
     };
 
     try {
@@ -97,7 +97,7 @@ const ProfilePage = () => {
             review.id === reviewIdBeingEdited ? updatedReview : review
           )
         );
-        setReviewIdBeingEdited(null); // Reset after saving
+        setReviewIdBeingEdited(null);
         setEditedComment('');
         setEditedRating(0);
       } else {
@@ -116,7 +116,7 @@ const ProfilePage = () => {
           {reviews.length > 0 ? (
             reviews.map((review, index) => (
               <div key={review.id || index} className="review-card">
-                <h3>{review.arcade_name || 'Unknown Arcade'}</h3> {/* Fallback to 'Unknown Arcade' if name is missing */}
+                <h3>{review.arcade_name || 'Unknown Arcade'}</h3>
                 <p>{new Date(review.created_at).toLocaleDateString()}</p>
                 <p>Rating: {review.rating} stars</p>
                 <p>{review.comment}</p>
@@ -150,6 +150,16 @@ const ProfilePage = () => {
       ) : (
         <p>Please log in to view your reviews.</p>
       )}
+
+      {/* Back and Home Buttons */}
+      <div className="navigation-buttons">
+        <button className="back-button" onClick={() => navigate(-1)}>
+          &lt; Back
+        </button>
+        <button className="home-button" onClick={() => navigate('/')}>
+          Home
+        </button>
+      </div>
     </div>
   );
 };

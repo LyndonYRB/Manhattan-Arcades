@@ -24,7 +24,8 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage selectedArcade={selectedArcade} />} />
         <Route path="/profile" element={<ProfilePage user={user} />} />
-        <Route path="/arcades/:id" element={<ArcadePage />} />
+        {/* Pass user and setUser to ArcadePage for reactivity */}
+        <Route path="/arcades/:id" element={<ArcadePage user={user} setUser={setUser} />} />
       </Routes>
     </Router>
   );

@@ -3,27 +3,67 @@ import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/ArcadePage.css';
 
 const ArcadePage = () => {
-  const { id } = useParams();  // Get the arcade ID from the route
+  const { id } = useParams();
   const navigate = useNavigate();
-  const [arcade, setArcade] = useState(null);  // For arcade details
-  const [reviews, setReviews] = useState([]);  // For reviews (comments)
+  const [arcade, setArcade] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  // Fetch arcade details
+  const getEasternTime = () => {
+    const now = new Date();
+    // Eastern Time is UTC-5 or UTC-4 (for daylight saving)
+    const offset = now.getTimezoneOffset() === -240 ? -4 : -5; // Handle daylight saving
+    const easternTime = new Date(now.getTime() + offset * 60 * 60 * 1000); // Apply UTC offset
+    return easternTime;
+  };
+
+  const checkIfOpen = (hours) => {
+    const now = getEasternTime();
+    const currentDay = now.toLocaleString('en-US', { weekday: 'long' });
+    const currentTime = now.getHours() + now.getMinutes() / 60; // Convert current time to decimal
+
+    console.log("Current Day:", currentDay);
+    console.log("Current Time (in decimal):", currentTime);
+    console.log("Today's Arcade Hours (from DB):", hours[currentDay]);
+
+    const todayHours = hours[currentDay];
+
+    if (todayHours) {
+      let openingTime = parseFloat(todayHours.open);  // Opening time in decimal
+      let closingTime = parseFloat(todayHours.close); // Closing time in decimal
+
+      // Handle cases where closing time is after midnight (e.g., close at 2 AM)
+      if (closingTime < openingTime) {
+        if (currentTime >= openingTime) {
+          closingTime += 24; // Add 24 hours to closing time for post-midnight handling
+        }
+      }
+
+      console.log("Opening Time:", openingTime);
+      console.log("Closing Time:", closingTime);
+
+      // Determine if the arcade is currently open
+      setIsOpen(currentTime >= openingTime && currentTime < closingTime);
+    } else {
+      setIsOpen(false); // Closed if no hours are available for today
+    }
+  };
+
   const fetchArcadeDetails = async () => {
     try {
       const response = await fetch(`/api/arcades/${id}`);
       const data = await response.json();
       setArcade(data);
+      checkIfOpen(data.hours_of_operation);
     } catch (error) {
       console.error('Error fetching arcade details:', error);
     }
   };
 
-  // Fetch arcade reviews (comments)
   const fetchArcadeReviews = async () => {
     try {
       const response = await fetch(`/api/arcades/${id}/comments`);
@@ -35,10 +75,9 @@ const ArcadePage = () => {
   };
 
   useEffect(() => {
-    fetchArcadeDetails();  // Fetch arcade details when the page loads
-    fetchArcadeReviews();  // Fetch arcade reviews when the page loads
+    fetchArcadeDetails();
+    fetchArcadeReviews();
 
-    // Check if the user is logged in
     const token = localStorage.getItem('token');
     if (token) {
       setIsLoggedIn(true);
@@ -49,7 +88,6 @@ const ArcadePage = () => {
     setRating(index + 1);
   };
 
-  // Submit a new review
   const handleSubmitReview = async () => {
     if (!isLoggedIn) {
       alert('You must be logged in to submit a review.');
@@ -73,7 +111,7 @@ const ArcadePage = () => {
 
       if (response.ok) {
         const newComment = await response.json();
-        setReviews((prevReviews) => [newComment, ...prevReviews]);  // Add new review
+        setReviews((prevReviews) => [newComment, ...prevReviews]);
         setRating(0);
         setReview('');
       } else {
@@ -95,7 +133,7 @@ const ArcadePage = () => {
   };
 
   if (!arcade) {
-    return <div>Loading arcade details...</div>;  // Handle loading state
+    return <div>Loading arcade details...</div>;
   }
 
   return (
@@ -155,6 +193,7 @@ const ArcadePage = () => {
                 </li>
               ))}
             </ul>
+            <p><strong>Status:</strong> {isOpen ? 'Open' : 'Closed'}</p>
             <p><strong>Serves Alcohol:</strong> {arcade.serves_alcohol ? 'Yes' : 'No'}</p>
             <p><strong>Serves Food:</strong> {arcade.serves_food ? 'Yes' : 'No'}</p>
           </div>
