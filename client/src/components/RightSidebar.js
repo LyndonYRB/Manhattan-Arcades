@@ -33,17 +33,18 @@ const RightSidebar = ({ user, setUser }) => {
   };
 
   const handleRegister = async () => {
+    // Validate that all fields are filled in
+    if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
+      alert('All fields are required');
+      return;
+    }
+  
+    // Check if the passwords match
     if (formData.password !== formData.confirmPassword) {
       alert('Passwords do not match');
       return;
     }
-
-    console.log('Registration Payload:', {
-      username: formData.username,
-      email: formData.email,
-      password: formData.password,
-    });
-
+  
     try {
       const response = await axios.post('/api/auth/register', {
         username: formData.username,
@@ -54,7 +55,7 @@ const RightSidebar = ({ user, setUser }) => {
       setIsRegistering(false); // Switch to login view
     } catch (error) {
       console.error('Error during registration:', error);
-
+  
       // Log the full server response for debugging
       if (error.response) {
         console.error('Server response:', error.response.data);
@@ -64,12 +65,18 @@ const RightSidebar = ({ user, setUser }) => {
       }
     }
   };
+  
 
   const handleLogin = async () => {
+    if (!formData.email || !formData.password) {
+      alert('Both email and password are required.');
+      return; // Stop execution if either field is empty
+    }
+  
     try {
       const response = await axios.post('/api/auth/login', {
         email: formData.email,
-        password: formData.password
+        password: formData.password,
       });
       const { token, user } = response.data;
       localStorage.setItem('token', token); // Store the JWT token
@@ -81,6 +88,7 @@ const RightSidebar = ({ user, setUser }) => {
       alert('Login failed. Please check your credentials and try again.');
     }
   };
+  
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove the JWT token from localStorage

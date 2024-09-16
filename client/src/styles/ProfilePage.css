@@ -1,21 +1,121 @@
+/* ProfilePage.css */
+
+/* General styling for profile page */
 .profile-page {
-    margin-left: 220px; /* Adjust this to match the expanded width of the left sidebar */
-    padding: 20px;
-    display: flex;
-    flex-direction: column; /* Flexbox layout for stacking elements vertically */
-  }
-  
-  .back-button {
-    padding: 10px 20px;
-    background-color: #333;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-  
-  .back-button:hover {
-    background-color: #555;
-  }
-  
+  padding: 20px;
+  text-align: center;
+  margin-left: 220px; /* Avoid left sidebar overlap */
+  margin-right: 220px; /* Avoid right sidebar overlap */
+}
+
+.reviews-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 800px; /* Limit width for responsiveness */
+  margin: 0 auto; /* Center the reviews */
+}
+
+/* Styling for each review card */
+.review-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.review-card h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.review-card p {
+  margin: 5px 0;
+}
+
+/* Buttons for editing and deleting reviews */
+.review-card button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.review-card .delete-btn {
+  background-color: #dc3545;
+}
+
+/* Star rating container */
+.star-rating {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+/* Style for the stars (editable and non-editable) */
+.star {
+  font-size: 2rem;
+  cursor: pointer;
+  color: lightgray; /* Default color for unselected stars */
+  transition: color 0.3s;
+}
+
+.star.filled {
+  color: gold; /* Color for selected stars */
+}
+
+/* Textarea for editing the review */
+.review-card textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+/* Styling for edit and cancel buttons */
+.review-card .edit-btn, .review-card .cancel-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.review-card .cancel-btn {
+  background-color: #6c757d;
+}
+
+/* Navigation buttons container */
+.navigation-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+/* Style for the "Go Back" and "Go to Homepage" buttons */
+.navigation-buttons button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.navigation-buttons .back-btn {
+  background-color: #6c757d;
+}
+
+.navigation-buttons .home-btn {
+  background-color: #28a745;
+}
+
+.navigation-buttons button:hover {
+  opacity: 0.9;
+}

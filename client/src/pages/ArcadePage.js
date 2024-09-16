@@ -3,37 +3,53 @@ import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/ArcadePage.css';
 
 const ArcadePage = () => {
-  const { id } = useParams();
-  const navigate = useNavigate(); // Hook to navigate between pages
-  const [arcade, setArcade] = useState(null);
+  const { id } = useParams();  // Get the arcade ID from the route
+  const navigate = useNavigate();
+  const [arcade, setArcade] = useState(null);  // For arcade details
+  const [reviews, setReviews] = useState([]);  // For reviews (comments)
   const [currentSlide, setCurrentSlide] = useState(0);
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useEffect(() => {
-    const fetchArcade = async () => {
-      try {
-        const response = await fetch(`/api/arcades/${id}`);
-        const data = await response.json();
-        setArcade(data);
-      } catch (error) {
-        console.error('Error fetching arcade data:', error);
-      }
-    };
+  // Fetch arcade details
+  const fetchArcadeDetails = async () => {
+    try {
+      const response = await fetch(`/api/arcades/${id}`);
+      const data = await response.json();
+      setArcade(data);
+    } catch (error) {
+      console.error('Error fetching arcade details:', error);
+    }
+  };
 
+  // Fetch arcade reviews (comments)
+  const fetchArcadeReviews = async () => {
+    try {
+      const response = await fetch(`/api/arcades/${id}/comments`);
+      const data = await response.json();
+      setReviews(data);
+    } catch (error) {
+      console.error('Error fetching arcade reviews:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchArcadeDetails();  // Fetch arcade details when the page loads
+    fetchArcadeReviews();  // Fetch arcade reviews when the page loads
+
+    // Check if the user is logged in
     const token = localStorage.getItem('token');
     if (token) {
       setIsLoggedIn(true);
     }
-
-    fetchArcade();
   }, [id]);
 
   const handleRating = (index) => {
     setRating(index + 1);
   };
 
+  // Submit a new review
   const handleSubmitReview = async () => {
     if (!isLoggedIn) {
       alert('You must be logged in to submit a review.');
@@ -57,10 +73,7 @@ const ArcadePage = () => {
 
       if (response.ok) {
         const newComment = await response.json();
-        setArcade((prevArcade) => ({
-          ...prevArcade,
-          reviews: [newComment, ...prevArcade.reviews],
-        }));
+        setReviews((prevReviews) => [newComment, ...prevReviews]);  // Add new review
         setRating(0);
         setReview('');
       } else {
@@ -82,7 +95,7 @@ const ArcadePage = () => {
   };
 
   if (!arcade) {
-    return <div>Loading arcade details...</div>;
+    return <div>Loading arcade details...</div>;  // Handle loading state
   }
 
   return (
@@ -147,12 +160,12 @@ const ArcadePage = () => {
           </div>
 
           <div className="reviews-list">
-            {arcade.reviews && arcade.reviews.length > 0 ? (
-              arcade.reviews.map((review, index) => (
+            {reviews && reviews.length > 0 ? (
+              reviews.map((review, index) => (
                 <div key={index} className="comment">
                   <p>
                     <strong>{review.username}</strong> (
-                    {new Date(review.created_at).toLocaleDateString()})
+                    {new Date(review.created_at).toLocaleDateString()} )
                   </p>
                   <p>Rating: {review.rating} stars</p>
                   <p>{review.comment}</p>
