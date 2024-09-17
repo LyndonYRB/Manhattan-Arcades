@@ -7,9 +7,11 @@ app = 'manhattan-arcades'
 primary_region = 'ewr'
 
 [build]
+  command = "node server.js"
+
 
 [http_service]
-  internal_port = 5000
+  internal_port = 5000  # This is the port your backend is running on
   force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true
@@ -20,3 +22,12 @@ primary_region = 'ewr'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
+
+[checks]
+  [checks.http]
+    type = "http"  # Add this line to specify the check type
+    path = "/"
+    method = "get"
+    port = 5000  # Ensure this matches your backend's port
+    interval = "15s"
+    timeout = "10s"

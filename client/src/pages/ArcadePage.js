@@ -61,7 +61,7 @@ const ArcadePage = ({ user }) => { // Accept user as prop
 
   const fetchArcadeDetails = async () => {
     try {
-      const response = await fetch(`/api/arcades/${id}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/arcades/${id}`);
       const data = await response.json();
       setArcade(data);
       checkIfOpen(data.hours_of_operation);
@@ -72,7 +72,7 @@ const ArcadePage = ({ user }) => { // Accept user as prop
 
   const fetchArcadeReviews = async () => {
     try {
-      const response = await fetch(`/api/arcades/${id}/comments`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/arcades/${id}/comments`);
       const data = await response.json();
       setReviews(data);
     } catch (error) {

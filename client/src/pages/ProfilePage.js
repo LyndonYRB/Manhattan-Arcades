@@ -49,12 +49,12 @@ const ProfilePage = ({ user }) => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/comments/${reviewId}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/comments/${reviewId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
       if (response.ok) {
         setReviews(reviews.filter(review => review.id !== reviewId));

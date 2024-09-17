@@ -8,7 +8,7 @@ const LeftSidebar = ({ onSelectArcade }) => {
   useEffect(() => {
     const fetchArcades = async () => {
       try {
-        const response = await fetch('/api/arcades');
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/arcades`);
         const data = await response.json();
         setArcades(data);
       } catch (error) {

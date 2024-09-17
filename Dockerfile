@@ -6,8 +6,8 @@ FROM node:${NODE_VERSION}-slim as base
 
 LABEL fly_launch_runtime="Node.js"
 
-# Node.js app lives here
-WORKDIR /app
+# Set working directory
+WORKDIR /Manhattan-Arcades
 
 # Set production environment
 ENV NODE_ENV="production"
@@ -27,14 +27,24 @@ RUN npm ci
 COPY --link . .
 
 # Build React app (assuming it's in 'client' directory)
-RUN cd client && npm install && npm run build
+WORKDIR /Manhattan-Arcades/client
+RUN npm install && npm run build
 
 # Final stage for app image
 FROM base
 
-# Copy built application
-COPY --from=build /app /app
+# Set working directory back to the project root
+WORKDIR /Manhattan-Arcades
+
+# Copy built React app from 'build' stage to 'client/build' in final image
+COPY --from=build /Manhattan-Arcades/client/build /Manhattan-Arcades/client/build
+
+# Install only production dependencies in final image
+COPY --from=build /Manhattan-Arcades/package.json /Manhattan-Arcades/package-lock.json ./
+RUN npm install --production
+
+# Expose the necessary port
+EXPOSE 5000
 
 # Start the server by default
-EXPOSE 5000
 CMD [ "node", "server.js" ]
