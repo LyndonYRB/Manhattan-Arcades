@@ -4,8 +4,11 @@ const authenticateToken = require('./authMiddleware');
 const jwt = require('jsonwebtoken');
 const { Pool } = require('pg');
 require('dotenv').config();
+const cors = require('cors');
+
 
 const app = express();
+app.use(cors());
 app.use(express.json()); // Middleware to parse JSON bodies
 
 // Configure the PostgreSQL connection pool
@@ -321,6 +324,10 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-app.get('/', (req, res) => {
-  res.send('Welcome to the Arcade Locator API');
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+// Serve the React app for any unknown routes (must be placed below API routes)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
