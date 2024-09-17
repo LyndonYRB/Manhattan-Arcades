@@ -12,7 +12,6 @@ WORKDIR /app
 # Set production environment
 ENV NODE_ENV="production"
 
-
 # Throw-away build stage to reduce size of final image
 FROM base as build
 
@@ -21,12 +20,14 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
 
 # Install node modules
-COPY --link package-lock.json package.json ./
+COPY --link package-lock.json package.json ./ 
 RUN npm ci
 
 # Copy application code
 COPY --link . .
 
+# Build React app (assuming it's in 'client' directory)
+RUN cd client && npm install && npm run build
 
 # Final stage for app image
 FROM base
@@ -34,6 +35,6 @@ FROM base
 # Copy built application
 COPY --from=build /app /app
 
-# Start the server by default, this can be overwritten at runtime
+# Start the server by default
 EXPOSE 5000
 CMD [ "node", "server.js" ]
