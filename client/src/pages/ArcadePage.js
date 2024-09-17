@@ -2,56 +2,62 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/ArcadePage.css';
 
-const ArcadePage = () => {
+const ArcadePage = ({ user }) => { // Accept user as prop
   const { id } = useParams();
   const navigate = useNavigate();
-  const [arcade, setArcade] = useState(null);
-  const [reviews, setReviews] = useState([]);
+  const [arcade, setArcade] = useState(null); 
+  const [reviews, setReviews] = useState([]);  
   const [currentSlide, setCurrentSlide] = useState(0);
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!user); // Check if user is logged in
   const [isOpen, setIsOpen] = useState(false);
 
   const getEasternTime = () => {
     const now = new Date();
-    // Eastern Time is UTC-5 or UTC-4 (for daylight saving)
-    const offset = now.getTimezoneOffset() === -240 ? -4 : -5; // Handle daylight saving
-    const easternTime = new Date(now.getTime() + offset * 60 * 60 * 1000); // Apply UTC offset
+    const estOffset = -5 * 60; // Eastern Standard Time (EST) offset in minutes
+    const isDST = now.getTimezoneOffset() < estOffset; // Check if daylight saving time is in effect
+    const offset = isDST ? -4 * 60 : estOffset; // Use daylight saving time offset if necessary
+    const easternTime = new Date(now.getTime() + (offset * 60 * 1000));
     return easternTime;
-  };
+};
+
 
   const checkIfOpen = (hours) => {
-    const now = getEasternTime();
-    const currentDay = now.toLocaleString('en-US', { weekday: 'long' });
-    const currentTime = now.getHours() + now.getMinutes() / 60; // Convert current time to decimal
-
+    const now = getEasternTime(); // Get the current time in Eastern Time
+    const currentDay = now.toLocaleString('en-US', { weekday: 'long' }); // Get current day in full (Monday, etc.)
+    const currentTime = now.getHours() + (now.getMinutes() / 60); // Get current time in decimal (e.g., 5.5 for 5:30 PM)
+  
     console.log("Current Day:", currentDay);
     console.log("Current Time (in decimal):", currentTime);
     console.log("Today's Arcade Hours (from DB):", hours[currentDay]);
-
-    const todayHours = hours[currentDay];
-
+  
+    const todayHours = hours[currentDay]; // Get the hours for the current day
+  
     if (todayHours) {
-      let openingTime = parseFloat(todayHours.open);  // Opening time in decimal
-      let closingTime = parseFloat(todayHours.close); // Closing time in decimal
-
-      // Handle cases where closing time is after midnight (e.g., close at 2 AM)
+      let openingTime = parseFloat(todayHours.open);  // Convert opening time to decimal
+      let closingTime = parseFloat(todayHours.close); // Convert closing time to decimal
+  
+      // Handle closing time past midnight
       if (closingTime < openingTime) {
-        if (currentTime >= openingTime) {
-          closingTime += 24; // Add 24 hours to closing time for post-midnight handling
-        }
+        // Add 24 hours to the closing time if it's past midnight
+        closingTime += 24;
       }
-
+  
       console.log("Opening Time:", openingTime);
       console.log("Closing Time:", closingTime);
-
-      // Determine if the arcade is currently open
-      setIsOpen(currentTime >= openingTime && currentTime < closingTime);
+  
+      // Determine if the current time is within the open hours
+      if (currentTime >= openingTime && currentTime < closingTime) {
+        setIsOpen(true); // Arcade is open
+      } else {
+        setIsOpen(false); // Arcade is closed
+      }
     } else {
-      setIsOpen(false); // Closed if no hours are available for today
+      setIsOpen(false); // If no hours are found for today, assume closed
     }
   };
+  
 
   const fetchArcadeDetails = async () => {
     try {
@@ -78,11 +84,9 @@ const ArcadePage = () => {
     fetchArcadeDetails();
     fetchArcadeReviews();
 
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsLoggedIn(true);
-    }
-  }, [id]);
+    // Update login state based on the current user
+    setIsLoggedIn(!!user);  // Update when user logs in/out
+  }, [id, user]); // Add user as a dependency to update when login status changes
 
   const handleRating = (index) => {
     setRating(index + 1);
@@ -117,7 +121,6 @@ const ArcadePage = () => {
       } else {
         const data = await response.json();
         alert(data.msg || 'Error submitting review.');
-        console.error('Error submitting review:', response.statusText);
       }
     } catch (error) {
       console.error('Error submitting review:', error);
@@ -177,11 +180,11 @@ const ArcadePage = () => {
               <button className="submit-review" onClick={handleSubmitReview}>
                 Submit Review
               </button>
-              <button className="back-button" onClick={() => navigate('/')}>
-                &lt; Back
-              </button>
             </div>
           )}
+          <button className="back-button" onClick={() => navigate('/')}>
+            &lt; Back
+          </button>
         </div>
         <div className="arcade-right">
           <div className="arcade-info-div">
@@ -196,6 +199,19 @@ const ArcadePage = () => {
             <p><strong>Status:</strong> {isOpen ? 'Open' : 'Closed'}</p>
             <p><strong>Serves Alcohol:</strong> {arcade.serves_alcohol ? 'Yes' : 'No'}</p>
             <p><strong>Serves Food:</strong> {arcade.serves_food ? 'Yes' : 'No'}</p>
+
+            {/* Nearest Trains Section */}
+            <p><strong>Nearest Trains:</strong></p>
+            <div className="train-icons">
+              {arcade.nearest_train && JSON.parse(arcade.nearest_train).map((train, index) => (
+                <img
+                  key={index}
+                  src={`/assets/train-symbols/${train.train}.svg.png`}
+                  alt={`Train ${train.train}`}
+                  className="train-icon"
+                />
+              ))}
+            </div>
           </div>
 
           <div className="reviews-list">

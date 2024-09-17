@@ -38,3 +38,22 @@
   text-decoration: none;
   border-radius: 5px;
 }
+
+/* Style for the star container */
+.stars {
+  display: flex;
+  justify-content: center; /* Centers the stars horizontally */
+  margin-top: 5px; /* Adds a bit of space between "Average Rating" and stars */
+}
+
+/* Style for the stars */
+.filled-star, .empty-star {
+  font-size: 30px; /* Adjust this value to make the stars bigger */
+  color: gold; /* Color for filled stars */
+  margin: 0 3px; /* Adds space between stars */
+}
+
+.empty-star {
+  color: lightgray; /* Color for empty stars */
+}
+

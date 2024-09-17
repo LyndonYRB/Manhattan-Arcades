@@ -111,7 +111,13 @@ app.post('/api/arcades', async (req, res) => {
 // READ: Get all arcades (GET request)
 app.get('/api/arcades', async (req, res) => {
   try {
-    const allArcades = await pool.query('SELECT * FROM arcades');
+    const allArcades = await pool.query(`
+      SELECT arcades.*, 
+      (SELECT COALESCE(ROUND(AVG(comments.rating), 1), 0) 
+       FROM comments 
+       WHERE comments.arcade_id = arcades.id) as average_rating
+      FROM arcades
+    `);
     res.json(allArcades.rows);
   } catch (err) {
     console.error(err.message);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/RightSidebar.css';
 
@@ -17,9 +17,9 @@ const RightSidebar = ({ user, setUser }) => {
     confirmPassword: ''
   });
 
-  const navigate = useNavigate(); // Define navigate using useNavigate
+  const navigate = useNavigate(); 
+  const location = useLocation(); 
 
-  // Load user from localStorage if available
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
@@ -47,13 +47,9 @@ const RightSidebar = ({ user, setUser }) => {
         password: formData.password
       });
       alert('Registration successful! Please log in.');
-      setIsRegistering(false); // Switch to login view
+      setIsRegistering(false);
     } catch (error) {
-      if (error.response) {
-        alert(`Registration failed: ${error.response.data.msg || 'Please try again.'}`);
-      } else {
-        alert('Registration failed. Please try again.');
-      }
+      alert('Registration failed. Please try again.');
     }
   };
 
@@ -64,12 +60,12 @@ const RightSidebar = ({ user, setUser }) => {
         password: formData.password
       });
       const { token, user } = response.data;
-      localStorage.setItem('token', token); // Store the JWT token
-      localStorage.setItem('user', JSON.stringify(user)); // Store the user in localStorage
-      setUser(user); // Update user state
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      setUser(user);
       alert(`Welcome, ${user.username}!`);
     } catch (error) {
-      alert('Login failed. Please check your credentials and try again.');
+      alert('Login failed. Please try again.');
     }
   };
 
@@ -77,7 +73,11 @@ const RightSidebar = ({ user, setUser }) => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
-    navigate('/'); // Redirect to home after logging out
+    if (location.pathname === '/profile') {
+      navigate('/');
+    } else {
+      setUser(null);
+    }
   };
 
   const handleFocus = () => {
@@ -104,23 +104,11 @@ const RightSidebar = ({ user, setUser }) => {
             <Typography variant="h6" component="div" gutterBottom>
               Welcome, {user.username}
             </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              component={Link}
-              to="/profile"
-              fullWidth
-            >
-              Profile
+            <Button variant="contained" color="primary" component={Link} to="/profile" fullWidth>
+              <span>Profile</span> {/* Wrapping the Profile button text in span */}
             </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={handleLogout}
-              fullWidth
-              style={{ marginTop: '10px' }}
-            >
-              Log Out
+            <Button variant="contained" color="secondary" onClick={handleLogout} fullWidth style={{ marginTop: '10px' }}>
+              <span>Log Out</span> {/* Wrapping the Log Out button text in span */}
             </Button>
           </>
         ) : (
@@ -170,10 +158,10 @@ const RightSidebar = ({ user, setUser }) => {
                   margin="normal"
                 />
                 <Button variant="contained" color="primary" onClick={handleRegister} fullWidth>
-                  Register
+                  <span>Register</span>
                 </Button>
                 <Button variant="text" onClick={() => setIsRegistering(false)} fullWidth>
-                  Already have an account? Log in
+                  <span>Already have an account? Log in</span>
                 </Button>
               </>
             ) : (
@@ -200,10 +188,10 @@ const RightSidebar = ({ user, setUser }) => {
                   margin="normal"
                 />
                 <Button variant="contained" color="primary" onClick={handleLogin} fullWidth>
-                  Log In
+                  <span>Log In</span>
                 </Button>
                 <Button variant="text" onClick={() => setIsRegistering(true)} fullWidth>
-                  Don't have an account? Register
+                  <span>Don't have an account? Register</span>
                 </Button>
               </>
             )}
