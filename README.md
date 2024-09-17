@@ -28,29 +28,27 @@ A full-stack web application that allows users to search, view, and review arcad
    ```bash
    git clone https://github.com/LyndonYRB/Manhattan-Arcades.git
 
-Navigate to the project directory:
+2. Navigate to the project directory:
+    ```bash
+    cd Manhattan-Arcades
 
-bash
-Copy code
-cd Manhattan-Arcades
+3. Install dependencies:
+   ```bash
+   npm install
 
-Install dependencies:
-
-bash
-Copy code
-npm install
-Set up the PostgreSQL database:
+4. Set up the PostgreSQL database:
 
 Create a PostgreSQL database.
 Update the .env file with your database credentials:
-plaintext
-Copy code
-DB_USER=your_db_user
-DB_HOST=localhost
-DB_NAME=arcade_locator
-DB_PASSWORD=your_password
-DB_PORT=5432
-JWT_SECRET=your_jwt_secret
+   ```bash
+   DB_USER=your_db_user
+   DB_HOST=localhost
+   DB_NAME=arcade_locator
+   DB_PASSWORD=your_password
+   DB_PORT=5432
+   JWT_SECRET=your_jwt_secret
+
+   
 Run the migrations to set up the database tables:
 
 bash
