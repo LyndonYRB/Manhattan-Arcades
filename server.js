@@ -12,7 +12,7 @@ const path = require('path');
 const app = express();
 
 // Middleware
-app.use(cors()); // Enable CORS for all routes
+app.use(cors({ origin: '*'})); // Enable CORS for all routes
 app.use(express.json()); // Parse incoming JSON data
 
 // Configure the PostgreSQL connection pool
