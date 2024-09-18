@@ -1,0 +1,599 @@
+// 20240918121820
+// http://localhost:5000/api/arcades/
+
+[
+  {
+    "id": 3,
+    "name": "OSNYC",
+    "address": "50 Bowery, New York, NY 10013",
+    "days_open": "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday",
+    "hours_of_operation": {
+      "Friday": {
+        "open": "12:00",
+        "close": "00:00"
+      },
+      "Monday": {
+        "open": "12:00",
+        "close": "00:00"
+      },
+      "Sunday": {
+        "open": "12:00",
+        "close": "00:00"
+      },
+      "Tuesday": {
+        "open": "12:00",
+        "close": "00:00"
+      },
+      "Saturday": {
+        "open": "12:00",
+        "close": "00:00"
+      },
+      "Thursday": {
+        "open": "12:00",
+        "close": "00:00"
+      },
+      "Wednesday": {
+        "open": "12:00",
+        "close": "00:00"
+      }
+    },
+    "serves_alcohol": true,
+    "description": "OSNYC is a gaming lounge and bar located in the heart of Chinatown, known for its VR gaming and modern decor.",
+    "nearest_train": "[{\"train\": \"B\", \"icon_url\": \"/assets/train-symbols/B.svg\"}, {\"train\": \"D\", \"icon_url\": \"/assets/train-symbols/D.svg\"}, {\"train\": \"J\", \"icon_url\": \"/assets/train-symbols/J.svg\"}, {\"train\": \"Z\", \"icon_url\": \"/assets/train-symbols/Z.svg\"}, {\"train\": \"N\", \"icon_url\": \"/assets/train-symbols/N.svg\"}, {\"train\": \"Q\", \"icon_url\": \"/assets/train-symbols/Q.svg\"}, {\"train\": \"R\", \"icon_url\": \"/assets/train-symbols/R.svg\"}, {\"train\": \"W\", \"icon_url\": \"/assets/train-symbols/W.svg\"}, {\"train\": \"6\", \"icon_url\": \"/assets/train-symbols/6.svg\"}]",
+    "serves_food": false,
+    "gallery": [
+      "3-1.jpg",
+      "3-2.jpg",
+      "3-3.jpg"
+    ],
+    "background_image": "3-bg.jpg",
+    "reviews": [
+      {
+        "date": "2024-09-03T14:00:00Z",
+        "rating": 3,
+        "comment": "Good selection of games.",
+        "username": "GamerGuy"
+      }
+    ],
+    "average_rating": "5.0"
+  },
+  {
+    "id": 11,
+    "name": "Bowlero Times Square",
+    "address": "222 W 44th St New York, NY 10036",
+    "days_open": "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday",
+    "hours_of_operation": {
+      "Friday": {
+        "open": "12:00",
+        "close": "01:00"
+      },
+      "Monday": {
+        "open": "12:00",
+        "close": "23:00"
+      },
+      "Sunday": {
+        "open": "12:00",
+        "close": "23:00"
+      },
+      "Tuesday": {
+        "open": "12:00",
+        "close": "23:00"
+      },
+      "Saturday": {
+        "open": "12:00",
+        "close": "01:00"
+      },
+      "Thursday": {
+        "open": "12:00",
+        "close": "23:00"
+      },
+      "Wednesday": {
+        "open": "12:00",
+        "close": "23:00"
+      }
+    },
+    "serves_alcohol": true,
+    "description": "Bowlero Times Square offers a premium bowling experience along with arcade games, making it a perfect spot for a fun night out in the heart of NYC.",
+    "nearest_train": "[{\"train\": \"1\", \"icon_url\": \"/assets/train-symbols/1.svg\"}, {\"train\": \"2\", \"icon_url\": \"/assets/train-symbols/2.svg\"}, {\"train\": \"3\", \"icon_url\": \"/assets/train-symbols/3.svg\"}, {\"train\": \"7\", \"icon_url\": \"/assets/train-symbols/7.svg\"}, {\"train\": \"A\", \"icon_url\": \"/assets/train-symbols/A.svg\"}, {\"train\": \"C\", \"icon_url\": \"/assets/train-symbols/C.svg\"}, {\"train\": \"E\", \"icon_url\": \"/assets/train-symbols/E.svg\"}, {\"train\": \"N\", \"icon_url\": \"/assets/train-symbols/N.svg\"}, {\"train\": \"Q\", \"icon_url\": \"/assets/train-symbols/Q.svg\"}, {\"train\": \"R\", \"icon_url\": \"/assets/train-symbols/R.svg\"}, {\"train\": \"S\", \"icon_url\": \"/assets/train-symbols/S.svg\"}, {\"train\": \"W\", \"icon_url\": \"/assets/train-symbols/W.svg\"}]",
+    "serves_food": true,
+    "gallery": [
+      "11-1.jpg",
+      "11-2.jpg",
+      "11-3.jpg"
+    ],
+    "background_image": "11-bg.jpg",
+    "reviews": [
+      {
+        "date": "2024-09-03T22:00:00Z",
+        "rating": 5,
+        "comment": "Best bowling and arcade combo in NYC!",
+        "username": "BowlingFan"
+      }
+    ],
+    "average_rating": "4.5"
+  },
+  {
+    "id": 8,
+    "name": "VR World NYC",
+    "address": "8 E 34th St, New York, NY 10016",
+    "days_open": "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday",
+    "hours_of_operation": {
+      "Friday": {
+        "open": "12:00",
+        "close": "22:00"
+      },
+      "Monday": {
+        "open": "14:00",
+        "close": "21:00"
+      },
+      "Sunday": {
+        "open": "12:00",
+        "close": "20:00"
+      },
+      "Tuesday": {
+        "open": "14:00",
+        "close": "21:00"
+      },
+      "Saturday": {
+        "open": "12:00",
+        "close": "22:00"
+      },
+      "Thursday": {
+        "open": "14:00",
+        "close": "21:00"
+      },
+      "Wednesday": {
+        "open": "14:00",
+        "close": "21:00"
+      }
+    },
+    "serves_alcohol": false,
+    "description": "VR World NYC on 34th Street offers a cutting-edge virtual reality experience, perfect for those looking to explore the latest in VR gaming.",
+    "nearest_train": "[{\"train\": \"B\", \"icon_url\": \"/assets/train-symbols/B.svg\"}, {\"train\": \"D\", \"icon_url\": \"/assets/train-symbols/D.svg\"}, {\"train\": \"F\", \"icon_url\": \"/assets/train-symbols/F.svg\"}, {\"train\": \"M\", \"icon_url\": \"/assets/train-symbols/M.svg\"}, {\"train\": \"6\", \"icon_url\": \"/assets/train-symbols/6.svg\"}, {\"train\": \"N\", \"icon_url\": \"/assets/train-symbols/N.svg\"}, {\"train\": \"Q\", \"icon_url\": \"/assets/train-symbols/Q.svg\"}, {\"train\": \"R\", \"icon_url\": \"/assets/train-symbols/R.svg\"}, {\"train\": \"W\", \"icon_url\": \"/assets/train-symbols/W.svg\"}]",
+    "serves_food": false,
+    "gallery": [
+      "8-1.jpg",
+      "8-2.jpg",
+      "8-3.jpg"
+    ],
+    "background_image": "8-bg.jpg",
+    "reviews": [
+      {
+        "date": "2024-09-03T19:00:00Z",
+        "rating": 4,
+        "comment": "Amazing VR experience!",
+        "username": "VRFanatic"
+      }
+    ],
+    "average_rating": "4.6"
+  },
+  {
+    "id": 10,
+    "name": "Uptown Gaming Bar and Lounge",
+    "address": "4455 Broadway, New York, NY 10040",
+    "days_open": "Sunday, Tuesday, Wednesday, Thursday, Friday, Saturday",
+    "hours_of_operation": {
+      "Friday": {
+        "open": "17:00",
+        "close": "02:00"
+      },
+      "Sunday": {
+        "open": "16:00",
+        "close": "00:00"
+      },
+      "Tuesday": {
+        "open": "17:00",
+        "close": "00:00"
+      },
+      "Saturday": {
+        "open": "16:00",
+        "close": "02:00"
+      },
+      "Thursday": {
+        "open": "17:00",
+        "close": "00:00"
+      },
+      "Wednesday": {
+        "open": "17:00",
+        "close": "00:00"
+      }
+    },
+    "serves_alcohol": true,
+    "description": "Uptown Gaming Bar and Lounge in Washington Heights provides a relaxed environment with a variety of video games, board games, and a full bar.",
+    "nearest_train": "[{\"train\": \"1\", \"icon_url\": \"/assets/train-symbols/1.svg\"}, {\"train\": \"A\", \"icon_url\": \"/assets/train-symbols/A.svg\"}]",
+    "serves_food": true,
+    "gallery": [
+      "10-1.jpg",
+      "10-2.jpg",
+      "10-3.jpg"
+    ],
+    "background_image": "10-bg.jpg",
+    "reviews": [
+      {
+        "date": "2024-09-03T21:00:00Z",
+        "rating": 4,
+        "comment": "Great atmosphere, good drinks.",
+        "username": "UptownGamer"
+      }
+    ],
+    "average_rating": "4.0"
+  },
+  {
+    "id": 7,
+    "name": "Chinatown Fair Family Fun Center",
+    "address": "8 Mott St, New York, NY 10038",
+    "days_open": "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday",
+    "hours_of_operation": {
+      "Friday": {
+        "open": "11:00",
+        "close": "02:00"
+      },
+      "Monday": {
+        "open": "11:00",
+        "close": "00:00"
+      },
+      "Sunday": {
+        "open": "11:00",
+        "close": "00:00"
+      },
+      "Tuesday": {
+        "open": "11:00",
+        "close": "00:00"
+      },
+      "Saturday": {
+        "open": "11:00",
+        "close": "02:00"
+      },
+      "Thursday": {
+        "open": "11:00",
+        "close": "01:00"
+      },
+      "Wednesday": {
+        "open": "11:00",
+        "close": "01:00"
+      }
+    },
+    "serves_alcohol": false,
+    "description": "Chinatown Fair Family Fun Center is a long-standing arcade in Chinatown, beloved for its classic games and lively atmosphere.",
+    "nearest_train": "[{\"train\": \"B\", \"icon_url\": \"/assets/train-symbols/B.svg\"}, {\"train\": \"D\", \"icon_url\": \"/assets/train-symbols/D.svg\"}, {\"train\": \"J\", \"icon_url\": \"/assets/train-symbols/J.svg\"}, {\"train\": \"Z\", \"icon_url\": \"/assets/train-symbols/Z.svg\"}, {\"train\": \"N\", \"icon_url\": \"/assets/train-symbols/N.svg\"}, {\"train\": \"Q\", \"icon_url\": \"/assets/train-symbols/Q.svg\"}, {\"train\": \"R\", \"icon_url\": \"/assets/train-symbols/R.svg\"}, {\"train\": \"W\", \"icon_url\": \"/assets/train-symbols/W.svg\"}, {\"train\": \"6\", \"icon_url\": \"/assets/train-symbols/6.svg\"}]",
+    "serves_food": false,
+    "gallery": [
+      "7-1.jpg",
+      "7-2.jpg",
+      "7-3.jpg"
+    ],
+    "background_image": "7-bg.jpg",
+    "reviews": [
+      {
+        "date": "2024-09-03T18:00:00Z",
+        "rating": 5,
+        "comment": "Great for the kids!",
+        "username": "FamilyFun"
+      }
+    ],
+    "average_rating": "2.3"
+  },
+  {
+    "id": 9,
+    "name": "The Uncommons",
+    "address": "230 Thompson St, New York, NY 10012",
+    "days_open": "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday",
+    "hours_of_operation": {
+      "Friday": {
+        "open": "10:00",
+        "close": "00:00"
+      },
+      "Monday": {
+        "open": "10:00",
+        "close": "23:00"
+      },
+      "Sunday": {
+        "open": "10:00",
+        "close": "23:00"
+      },
+      "Tuesday": {
+        "open": "10:00",
+        "close": "23:00"
+      },
+      "Saturday": {
+        "open": "10:00",
+        "close": "00:00"
+      },
+      "Thursday": {
+        "open": "10:00",
+        "close": "23:00"
+      },
+      "Wednesday": {
+        "open": "10:00",
+        "close": "23:00"
+      }
+    },
+    "serves_alcohol": true,
+    "description": "The Uncommons in Greenwich Village is NYC's first board game caf‚, offering a wide range of tabletop games and snacks.",
+    "nearest_train": "[{\"train\": \"A\", \"icon_url\": \"/assets/train-symbols/A.svg\"}, {\"train\": \"C\", \"icon_url\": \"/assets/train-symbols/C.svg\"}, {\"train\": \"E\", \"icon_url\": \"/assets/train-symbols/E.svg\"}, {\"train\": \"B\", \"icon_url\": \"/assets/train-symbols/B.svg\"}, {\"train\": \"D\", \"icon_url\": \"/assets/train-symbols/D.svg\"}, {\"train\": \"F\", \"icon_url\": \"/assets/train-symbols/F.svg\"}, {\"train\": \"M\", \"icon_url\": \"/assets/train-symbols/M.svg\"}]",
+    "serves_food": true,
+    "gallery": [
+      "9-1.jpg",
+      "9-2.jpg",
+      "9-3.jpg"
+    ],
+    "background_image": "9-bg.jpg",
+    "reviews": [
+      {
+        "date": "2024-09-03T20:00:00Z",
+        "rating": 5,
+        "comment": "Perfect spot for board games!",
+        "username": "BoardGameLover"
+      }
+    ],
+    "average_rating": "4.3"
+  },
+  {
+    "id": 1,
+    "name": "Barcade (Chelsea)",
+    "address": "148 W 24th St, New York, NY 10011",
+    "days_open": "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday",
+    "hours_of_operation": {
+      "Friday": {
+        "open": "12:00",
+        "close": "04:00"
+      },
+      "Monday": {
+        "open": "14:00",
+        "close": "02:00"
+      },
+      "Sunday": {
+        "open": "12:00",
+        "close": "02:00"
+      },
+      "Tuesday": {
+        "open": "14:00",
+        "close": "02:00"
+      },
+      "Saturday": {
+        "open": "12:00",
+        "close": "04:00"
+      },
+      "Thursday": {
+        "open": "14:00",
+        "close": "02:00"
+      },
+      "Wednesday": {
+        "open": "14:00",
+        "close": "02:00"
+      }
+    },
+    "serves_alcohol": true,
+    "description": "Barcade Chelsea is a popular spot with a wide selection of classic arcade games and a full bar, making it a favorite hangout for gamers and non-gamers alike.",
+    "nearest_train": "[{\"train\": \"1\", \"icon_url\": \"/assets/train-symbols/1.svg\"}, {\"train\": \"2\", \"icon_url\": \"/assets/train-symbols/2.svg\"}, {\"train\": \"F\", \"icon_url\": \"/assets/train-symbols/F.svg\"}, {\"train\": \"M\", \"icon_url\": \"/assets/train-symbols/M.svg\"}, {\"train\": \"C\", \"icon_url\": \"/assets/train-symbols/C.svg\"}, {\"train\": \"E\", \"icon_url\": \"/assets/train-symbols/E.svg\"}]",
+    "serves_food": true,
+    "gallery": [
+      "1-1.jpg",
+      "1-2.jpg",
+      "1-3.jpg"
+    ],
+    "background_image": "1-bg.jpg",
+    "reviews": null,
+    "average_rating": "4.8"
+  },
+  {
+    "id": 5,
+    "name": "8-Bit Bites (7th Ave)",
+    "address": "197 7th Ave, New York, NY 10012",
+    "days_open": "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday",
+    "hours_of_operation": {
+      "Friday": {
+        "open": "11:00",
+        "close": "02:00"
+      },
+      "Monday": {
+        "open": "11:00",
+        "close": "23:00"
+      },
+      "Sunday": {
+        "open": "11:00",
+        "close": "02:00"
+      },
+      "Tuesday": {
+        "open": "11:00",
+        "close": "23:00"
+      },
+      "Saturday": {
+        "open": "11:00",
+        "close": "02:00"
+      },
+      "Thursday": {
+        "open": "11:00",
+        "close": "02:00"
+      },
+      "Wednesday": {
+        "open": "11:00",
+        "close": "23:00"
+      }
+    },
+    "serves_alcohol": true,
+    "description": "8-Bit Bites on 7th Ave combines a casual dining experience with classic arcade games, making it a great spot for groups.",
+    "nearest_train": "[{\"train\": \"1\", \"icon_url\": \"/assets/train-symbols/1.svg\"}, {\"train\": \"2\", \"icon_url\": \"/assets/train-symbols/2.svg\"}, {\"train\": \"F\", \"icon_url\": \"/assets/train-symbols/F.svg\"}, {\"train\": \"M\", \"icon_url\": \"/assets/train-symbols/M.svg\"}, {\"train\": \"A\", \"icon_url\": \"/assets/train-symbols/A.svg\"}, {\"train\": \"C\", \"icon_url\": \"/assets/train-symbols/C.svg\"}, {\"train\": \"E\", \"icon_url\": \"/assets/train-symbols/E.svg\"}]",
+    "serves_food": true,
+    "gallery": [
+      "5-1.jpg",
+      "5-2.jpg",
+      "5-3.jpg"
+    ],
+    "background_image": "5-bg.jpg",
+    "reviews": [
+      {
+        "date": "2024-09-03T16:00:00Z",
+        "rating": 5,
+        "comment": "Loved the retro games!",
+        "username": "RetroGamer"
+      }
+    ],
+    "average_rating": "3.7"
+  },
+  {
+    "id": 2,
+    "name": "Barcade (St.Mark's Place)",
+    "address": "6 St.Mark's Place, New York, NY 10003",
+    "days_open": "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday",
+    "hours_of_operation": {
+      "Friday": {
+        "open": "14:00",
+        "close": "02:00"
+      },
+      "Monday": {
+        "open": "14:00",
+        "close": "02:00"
+      },
+      "Sunday": {
+        "open": "14:00",
+        "close": "02:00"
+      },
+      "Tuesday": {
+        "open": "14:00",
+        "close": "02:00"
+      },
+      "Saturday": {
+        "open": "14:00",
+        "close": "02:00"
+      },
+      "Thursday": {
+        "open": "14:00",
+        "close": "02:00"
+      },
+      "Wednesday": {
+        "open": "14:00",
+        "close": "02:00"
+      }
+    },
+    "serves_alcohol": true,
+    "description": "Barcade St. Mark's Place offers a unique gaming experience with a retro vibe, serving a variety of craft beers and food options.",
+    "nearest_train": "[{\"train\": \"6\", \"icon_url\": \"/assets/train-symbols/6.svg\"}, {\"train\": \"N\", \"icon_url\": \"/assets/train-symbols/N.svg\"}, {\"train\": \"R\", \"icon_url\": \"/assets/train-symbols/R.svg\"}, {\"train\": \"W\", \"icon_url\": \"/assets/train-symbols/W.svg\"}]",
+    "serves_food": true,
+    "gallery": [
+      "2-1.jpg",
+      "2-2.jpg",
+      "2-3.jpg"
+    ],
+    "background_image": "2-bg.jpg",
+    "reviews": [
+      {
+        "date": "2024-09-03T13:00:00Z",
+        "rating": 4,
+        "comment": "Nice vibe, but a bit crowded.",
+        "username": "JaneSmith"
+      }
+    ],
+    "average_rating": "5.0"
+  },
+  {
+    "id": 4,
+    "name": "8-Bit Bites",
+    "address": "77 2nd Ave, New York, NY 10003",
+    "days_open": "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday",
+    "hours_of_operation": {
+      "Friday": {
+        "open": "11:00",
+        "close": "03:45"
+      },
+      "Monday": {
+        "open": "11:00",
+        "close": "01:45"
+      },
+      "Sunday": {
+        "open": "11:00",
+        "close": "01:45"
+      },
+      "Tuesday": {
+        "open": "11:00",
+        "close": "01:45"
+      },
+      "Saturday": {
+        "open": "11:00",
+        "close": "03:45"
+      },
+      "Thursday": {
+        "open": "11:00",
+        "close": "01:45"
+      },
+      "Wednesday": {
+        "open": "11:00",
+        "close": "01:45"
+      }
+    },
+    "serves_alcohol": true,
+    "description": "8-Bit Bites on 2nd Ave is a cozy gaming caf‚ offering a range of bite-sized snacks and retro arcade games.",
+    "nearest_train": "[{\"train\": \"F\", \"icon_url\": \"/assets/train-symbols/F.svg\"}, {\"train\": \"6\", \"icon_url\": \"/assets/train-symbols/6.svg\"}]",
+    "serves_food": true,
+    "gallery": [
+      "4-1.jpg",
+      "4-2.jpg",
+      "4-3.jpg"
+    ],
+    "background_image": "4-bg.jpg",
+    "reviews": [
+      {
+        "date": "2024-09-03T15:00:00Z",
+        "rating": 4,
+        "comment": "Great place for a casual hangout.",
+        "username": "ArcadeFan"
+      }
+    ],
+    "average_rating": "3.9"
+  },
+  {
+    "id": 6,
+    "name": "Dave & Buster's NYC",
+    "address": "234 W 42nd St, New York, NY 10036",
+    "days_open": "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday",
+    "hours_of_operation": {
+      "Friday": {
+        "open": "10:00",
+        "close": "02:00"
+      },
+      "Monday": {
+        "open": "10:00",
+        "close": "00:00"
+      },
+      "Sunday": {
+        "open": "10:00",
+        "close": "00:00"
+      },
+      "Tuesday": {
+        "open": "10:00",
+        "close": "00:00"
+      },
+      "Saturday": {
+        "open": "10:00",
+        "close": "02:00"
+      },
+      "Thursday": {
+        "open": "10:00",
+        "close": "01:00"
+      },
+      "Wednesday": {
+        "open": "10:00",
+        "close": "01:00"
+      }
+    },
+    "serves_alcohol": true,
+    "description": "Dave & Buster's Times Square is a large, vibrant venue offering an extensive menu and a vast array of arcade games.",
+    "nearest_train": "[{\"train\": \"1\", \"icon_url\": \"/assets/train-symbols/1.svg\"}, {\"train\": \"2\", \"icon_url\": \"/assets/train-symbols/2.svg\"}, {\"train\": \"3\", \"icon_url\": \"/assets/train-symbols/3.svg\"}, {\"train\": \"7\", \"icon_url\": \"/assets/train-symbols/7.svg\"}, {\"train\": \"A\", \"icon_url\": \"/assets/train-symbols/A.svg\"}, {\"train\": \"C\", \"icon_url\": \"/assets/train-symbols/C.svg\"}, {\"train\": \"E\", \"icon_url\": \"/assets/train-symbols/E.svg\"}, {\"train\": \"N\", \"icon_url\": \"/assets/train-symbols/N.svg\"}, {\"train\": \"Q\", \"icon_url\": \"/assets/train-symbols/Q.svg\"}, {\"train\": \"R\", \"icon_url\": \"/assets/train-symbols/R.svg\"}, {\"train\": \"S\", \"icon_url\": \"/assets/train-symbols/S.svg\"}, {\"train\": \"W\", \"icon_url\": \"/assets/train-symbols/W.svg\"}]",
+    "serves_food": true,
+    "gallery": [
+      "6-1.jpg",
+      "6-2.jpg",
+      "6-3.jpg"
+    ],
+    "background_image": "6-bg.jpg",
+    "reviews": [
+      {
+        "date": "2024-09-03T17:00:00Z",
+        "rating": 4,
+        "comment": "Awesome place, but pricey.",
+        "username": "NYCGamer"
+      }
+    ],
+    "average_rating": "3.5"
+  }
+]

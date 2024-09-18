@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for manhattan-arcades on 2024-09-17T19:11:55-04:00
+# fly.toml app configuration file generated for manhattan-arcades on 2024-09-18T14:30:57-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -7,6 +7,10 @@ app = 'manhattan-arcades'
 primary_region = 'ewr'
 
 [build]
+
+[[mounts]]
+  source = 'pg_data'
+  destination = '/data'
 
 [http_service]
   internal_port = 5000
@@ -17,25 +21,24 @@ primary_region = 'ewr'
   processes = ['app']
 
 [[services]]
+  protocol = 'tcp'
   internal_port = 5000
-  protocol = "tcp"
 
   [[services.ports]]
-    handlers = ["http"]
-    port = 80  # For HTTP traffic
-  [[services.ports]]
-    handlers = ["tls", "http"]
-    port = 443  # For HTTPS traffic
-  
-[[services.http_checks]]
-  interval = 10000  # 10 seconds
-  timeout = 5000    # Increase timeout to 5 seconds
-  grace_period = "2m"  # Give more time for the app to start
-  method = "GET"
-  path = "/health"
-  protocol = "http"
-  port = 5000
+    port = 80
+    handlers = ['http']
 
+  [[services.ports]]
+    port = 443
+    handlers = ['tls', 'http']
+
+  [[services.http_checks]]
+    interval = '10s'
+    timeout = '5s'
+    grace_period = '2m0s'
+    method = 'GET'
+    path = '/health'
+    protocol = 'http'
 
 [checks]
   [checks.http]
@@ -47,10 +50,6 @@ primary_region = 'ewr'
     path = '/health'
 
 [[vm]]
-memory = '2gb'
-cpu_kind = 'shared'
-cpus = 2
-
-[mounts]
-  source = "pg_data"
-  destination = "/data"
+  memory = '2gb'
+  cpu_kind = 'shared'
+  cpus = 2

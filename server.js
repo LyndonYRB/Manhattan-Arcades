@@ -16,12 +16,23 @@ app.use(cors()); // Enable CORS for all routes
 app.use(express.json()); // Parse incoming JSON data
 
 // Configure the PostgreSQL connection pool
+// const pool = new Pool({
+//   user: process.env.DB_USER,
+//   host: process.env.DB_HOST,
+//   database: process.env.DB_NAME,
+//   password: process.env.DB_PASSWORD,
+//   port: process.env.DB_PORT,
+// });
 const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false, // This is important for Fly.io
+  },
+});
+
+// Health check route
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
 });
 
 // User Registration Route
@@ -287,16 +298,9 @@ app.get('/api/profile', authenticateToken, async (req, res) => {
   }
 });
 
-// Serve static files from React frontend (after the API routes)
-app.use(express.static(path.join(__dirname, 'client/build')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
-});
 
-// Health check route
-app.get('/health', (req, res) => {
-  res.status(200).send('OK');
-});
+
+
 
 // Test database connection
 app.get('/test-db', async (req, res) => {
@@ -313,4 +317,10 @@ app.get('/test-db', async (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+});
+
+// Serve static files from React frontend (after the API routes)
+app.use(express.static(path.join(__dirname, 'client/build')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
