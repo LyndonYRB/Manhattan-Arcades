@@ -2,6 +2,8 @@
 
 # Adjust NODE_VERSION as desired
 ARG NODE_VERSION=20.16.0
+
+# Stage 1: Base image
 FROM node:${NODE_VERSION}-slim as base
 
 LABEL fly_launch_runtime="Node.js"
@@ -12,39 +14,35 @@ WORKDIR /Manhattan-Arcades
 # Set production environment
 ENV NODE_ENV="production"
 
-# Throw-away build stage to reduce size of final image
-FROM base as build
+# Install dependencies
+COPY package-lock.json package.json ./
+RUN npm ci --production
 
-# Install packages needed to build node modules
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
+# Stage 2: Build React app
+FROM node:${NODE_VERSION}-slim as build
 
-# Install node modules
-COPY --link package-lock.json package.json ./ 
-RUN npm ci
-
-# Copy application code
-COPY --link . .
-
-# Build React app (assuming it's in 'client' directory)
+# Set working directory for React build
 WORKDIR /Manhattan-Arcades/client
-RUN npm install && npm run build
 
-# Final stage for app image
+# Copy React app package.json and install dependencies
+COPY client/package.json client/package-lock.json ./
+RUN npm install
+
+# Build the React app
+COPY client/ ./
+RUN npm run build
+
+# Stage 3: Final production image
 FROM base
 
-# Set working directory back to the project root
-WORKDIR /Manhattan-Arcades
-
-# Copy built React app from 'build' stage to 'client/build' in final image
+# Copy built React app from the previous stage
 COPY --from=build /Manhattan-Arcades/client/build /Manhattan-Arcades/client/build
 
-# Install only production dependencies in final image
-COPY --from=build /Manhattan-Arcades/package.json /Manhattan-Arcades/package-lock.json ./
-RUN npm install --production
+# Copy the rest of the server code
+COPY . .
 
 # Expose the necessary port
 EXPOSE 5000
 
 # Start the server by default
-CMD [ "node", "server.js" ]
+CMD ["node", "server.js"]

@@ -2,61 +2,85 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/ArcadePage.css';
 
-const ArcadePage = ({ user }) => { // Accept user as prop
+const ArcadePage = ({ user }) => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [arcade, setArcade] = useState(null); 
-  const [reviews, setReviews] = useState([]);  
+  const [arcade, setArcade] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(!!user); // Check if user is logged in
+  const [isLoggedIn, setIsLoggedIn] = useState(!!user);
   const [isOpen, setIsOpen] = useState(false);
 
+  // Function to always get Eastern Time
   const getEasternTime = () => {
     const now = new Date();
-    const estOffset = -5 * 60; // Eastern Standard Time (EST) offset in minutes
-    const isDST = now.getTimezoneOffset() < estOffset; // Check if daylight saving time is in effect
-    const offset = isDST ? -4 * 60 : estOffset; // Use daylight saving time offset if necessary
-    const easternTime = new Date(now.getTime() + (offset * 60 * 1000));
-    return easternTime;
-};
-
+  
+    // Use the Intl.DateTimeFormat API to always get Eastern Time regardless of user's local time zone
+    const easternTimeString = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/New_York',
+      hour12: false,
+      hour: 'numeric',
+      minute: 'numeric'
+    }).format(now);
+  
+    // Split the result into hours and minutes
+    const [hours, minutes] = easternTimeString.split(':').map(Number);
+  
+    // Combine hours and minutes into decimal format (e.g., 11:30 -> 11.5)
+    const easternTimeInDecimal = hours + minutes / 60;
+  
+    return easternTimeInDecimal;
+  };
+  
 
   const checkIfOpen = (hours) => {
-    const now = getEasternTime(); // Get the current time in Eastern Time
-    const currentDay = now.toLocaleString('en-US', { weekday: 'long' }); // Get current day in full (Monday, etc.)
-    const currentTime = now.getHours() + (now.getMinutes() / 60); // Get current time in decimal (e.g., 5.5 for 5:30 PM)
+    const currentDay = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/New_York',
+      weekday: 'long'
+    }).format(new Date());
   
+    const currentTime = getEasternTime(); // Now this is always in Eastern Time
     console.log("Current Day:", currentDay);
     console.log("Current Time (in decimal):", currentTime);
     console.log("Today's Arcade Hours (from DB):", hours[currentDay]);
   
-    const todayHours = hours[currentDay]; // Get the hours for the current day
+    const todayHours = hours[currentDay];
   
     if (todayHours) {
-      let openingTime = parseFloat(todayHours.open);  // Convert opening time to decimal
-      let closingTime = parseFloat(todayHours.close); // Convert closing time to decimal
+      let openingTime = parseFloat(todayHours.open);
+      let closingTime = parseFloat(todayHours.close);
   
-      // Handle closing time past midnight
+      // Handle special case for midnight (00:00)
+      if (closingTime === 24) {
+        closingTime = 23.99; // Treat midnight as 11:59 PM of the same day
+      }
+  
+      // Handle closing time that goes past midnight
       if (closingTime < openingTime) {
-        // Add 24 hours to the closing time if it's past midnight
-        closingTime += 24;
+        if (currentTime < openingTime) {
+          currentTime += 24; // Adjust time to reflect past-midnight hours
+        }
+        closingTime += 24; // Adjust closing time to past-midnight
       }
   
       console.log("Opening Time:", openingTime);
       console.log("Closing Time:", closingTime);
   
-      // Determine if the current time is within the open hours
+      // Check if the current time is within open hours
       if (currentTime >= openingTime && currentTime < closingTime) {
         setIsOpen(true); // Arcade is open
       } else {
         setIsOpen(false); // Arcade is closed
       }
     } else {
-      setIsOpen(false); // If no hours are found for today, assume closed
+      setIsOpen(false); // If no hours found for the day, assume closed
     }
   };
+  
+  
+  
   
 
   const fetchArcadeDetails = async () => {
@@ -83,10 +107,8 @@ const ArcadePage = ({ user }) => { // Accept user as prop
   useEffect(() => {
     fetchArcadeDetails();
     fetchArcadeReviews();
-
-    // Update login state based on the current user
-    setIsLoggedIn(!!user);  // Update when user logs in/out
-  }, [id, user]); // Add user as a dependency to update when login status changes
+    setIsLoggedIn(!!user);
+  }, [id, user]);
 
   const handleRating = (index) => {
     setRating(index + 1);
@@ -104,7 +126,7 @@ const ArcadePage = ({ user }) => { // Accept user as prop
     }
 
     try {
-      const response = await fetch(`/api/arcades/${id}/comments`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/arcades/${id}/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -215,7 +237,7 @@ const ArcadePage = ({ user }) => { // Accept user as prop
           </div>
 
           <div className="reviews-list">
-            {reviews && reviews.length > 0 ? (
+            {reviews.length > 0 ? (
               reviews.map((review, index) => (
                 <div key={index} className="comment">
                   <p>

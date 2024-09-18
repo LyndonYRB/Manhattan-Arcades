@@ -6,6 +6,7 @@ const { Pool } = require('pg');
 const cors = require('cors');
 require('dotenv').config();
 const authenticateToken = require('./authMiddleware');
+const path = require('path');
 
 // Initialize Express app
 const app = express();
@@ -16,15 +17,17 @@ app.use(express.json()); // Parse incoming JSON data
 
 // Configure the PostgreSQL connection pool
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
-  ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
-
 
 // User Registration Route
 app.post('/api/auth/register', async (req, res) => {
   const { username, email, password } = req.body;
-  
+
   if (!username || !email || !password) {
     return res.status(400).json({ msg: 'All fields are required' });
   }
@@ -87,7 +90,7 @@ app.post('/api/auth/login', async (req, res) => {
 // CREATE: Add a new arcade
 app.post('/api/arcades', async (req, res) => {
   const { name, address, days_open, hours_of_operation, serves_alcohol } = req.body;
-  
+
   try {
     const newArcade = await pool.query(
       'INSERT INTO arcades (name, address, days_open, hours_of_operation, serves_alcohol) VALUES ($1, $2, $3, $4, $5) RETURNING *',
@@ -100,15 +103,15 @@ app.post('/api/arcades', async (req, res) => {
   }
 });
 
-// READ: Get all arcades
+// READ: Get all arcades with average ratings
 app.get('/api/arcades', async (req, res) => {
   try {
     const allArcades = await pool.query(`
       SELECT arcades.*, 
-      (SELECT COALESCE(ROUND(AVG(comments.rating), 1), 0) 
-       FROM comments 
-       WHERE comments.arcade_id = arcades.id) as average_rating
+      COALESCE(ROUND(AVG(comments.rating), 1), 0) AS average_rating
       FROM arcades
+      LEFT JOIN comments ON arcades.id = comments.arcade_id
+      GROUP BY arcades.id
     `);
     res.json(allArcades.rows);
   } catch (err) {
@@ -221,6 +224,29 @@ app.get('/api/arcades/:id/comments', async (req, res) => {
   }
 });
 
+app.put('/api/comments/:commentId', authenticateToken, async (req, res) => {
+  try {
+    const { commentId } = req.params;
+    const { comment, rating } = req.body;
+    const userId = req.user.userId;
+
+    const updatedComment = await pool.query(
+      'UPDATE comments SET comment = $1, rating = $2 WHERE id = $3 AND user_id = $4 RETURNING *',
+      [comment, rating, commentId, userId]
+    );
+
+    if (updatedComment.rows.length === 0) {
+      return res.status(404).send('Comment not found or not authorized');
+    }
+
+    res.json(updatedComment.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// DELETE: Delete a comment
 app.delete('/api/comments/:commentId', authenticateToken, async (req, res) => {
   try {
     const { commentId } = req.params;
@@ -242,18 +268,49 @@ app.delete('/api/comments/:commentId', authenticateToken, async (req, res) => {
   }
 });
 
+// READ: Get reviews for the logged-in user
+app.get('/api/profile', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId; // Extract the userId from the token
+    const userReviews = await pool.query(
+      `SELECT comments.*, arcades.name as arcade_name
+       FROM comments
+       JOIN arcades ON comments.arcade_id = arcades.id
+       WHERE comments.user_id = $1
+       ORDER BY comments.created_at DESC`,
+      [userId]
+    );
+    res.json({ comments: userReviews.rows });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// Serve static files from React frontend (after the API routes)
+app.use(express.static(path.join(__dirname, 'client/build')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
+
+// Health check route
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+
+// Test database connection
+app.get('/test-db', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM arcades;');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Database query failed');
+  }
+});
 
 // Start the server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-});
-
-// Serve static files from React frontend
-const path = require('path');
-app.use(express.static(path.join(__dirname, 'client/build')));
-
-// Serve the React app for any unknown routes (must be placed below API routes)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });

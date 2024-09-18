@@ -9,6 +9,9 @@ const LeftSidebar = ({ onSelectArcade }) => {
     const fetchArcades = async () => {
       try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/arcades`);
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
         const data = await response.json();
         setArcades(data);
       } catch (error) {

@@ -17,8 +17,9 @@ const RightSidebar = ({ user, setUser }) => {
     confirmPassword: ''
   });
 
+  const [error, setError] = useState('');  // Error handling
   const navigate = useNavigate(); 
-  const location = useLocation(); 
+  const location = useLocation();
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -36,7 +37,7 @@ const RightSidebar = ({ user, setUser }) => {
 
   const handleRegister = async () => {
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match');
+      setError('Passwords do not match');
       return;
     }
 
@@ -48,8 +49,9 @@ const RightSidebar = ({ user, setUser }) => {
       });
       alert('Registration successful! Please log in.');
       setIsRegistering(false);
+      setError('');  // Clear error
     } catch (error) {
-      alert('Registration failed. Please try again.');
+      setError('Registration failed. Please try again.');
     }
   };
 
@@ -64,8 +66,9 @@ const RightSidebar = ({ user, setUser }) => {
       localStorage.setItem('user', JSON.stringify(user));
       setUser(user);
       alert(`Welcome, ${user.username}!`);
+      setError('');
     } catch (error) {
-      alert('Login failed. Please try again.');
+      setError('Login failed. Please check your credentials.');
     }
   };
 
@@ -105,10 +108,10 @@ const RightSidebar = ({ user, setUser }) => {
               Welcome, {user.username}
             </Typography>
             <Button variant="contained" color="primary" component={Link} to="/profile" fullWidth>
-              <span>Profile</span> {/* Wrapping the Profile button text in span */}
+              <span>Profile</span>
             </Button>
             <Button variant="contained" color="secondary" onClick={handleLogout} fullWidth style={{ marginTop: '10px' }}>
-              <span>Log Out</span> {/* Wrapping the Log Out button text in span */}
+              <span>Log Out</span>
             </Button>
           </>
         ) : (
@@ -157,6 +160,7 @@ const RightSidebar = ({ user, setUser }) => {
                   fullWidth
                   margin="normal"
                 />
+                {error && <Typography color="error">{error}</Typography>}
                 <Button variant="contained" color="primary" onClick={handleRegister} fullWidth>
                   <span>Register</span>
                 </Button>
@@ -187,6 +191,7 @@ const RightSidebar = ({ user, setUser }) => {
                   fullWidth
                   margin="normal"
                 />
+                {error && <Typography color="error">{error}</Typography>}
                 <Button variant="contained" color="primary" onClick={handleLogin} fullWidth>
                   <span>Log In</span>
                 </Button>

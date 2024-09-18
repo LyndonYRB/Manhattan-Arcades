@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for manhattan-arcades on 2024-09-16T23:22:57-04:00
+# fly.toml app configuration file generated for manhattan-arcades on 2024-09-17T19:11:55-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -7,27 +7,50 @@ app = 'manhattan-arcades'
 primary_region = 'ewr'
 
 [build]
-  command = "node server.js"
-
 
 [http_service]
-  internal_port = 5000  # This is the port your backend is running on
+  internal_port = 5000
   force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true
-  min_machines_running = 0
+  min_machines_running = 1
   processes = ['app']
 
-[[vm]]
-  memory = '1gb'
-  cpu_kind = 'shared'
-  cpus = 1
+[[services]]
+  internal_port = 5000
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80  # For HTTP traffic
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443  # For HTTPS traffic
+  
+[[services.http_checks]]
+  interval = 10000  # 10 seconds
+  timeout = 5000    # Increase timeout to 5 seconds
+  grace_period = "2m"  # Give more time for the app to start
+  method = "GET"
+  path = "/health"
+  protocol = "http"
+  port = 5000
+
 
 [checks]
   [checks.http]
-    type = "http"  # Add this line to specify the check type
-    path = "/"
-    method = "get"
-    port = 5000  # Ensure this matches your backend's port
-    interval = "15s"
-    timeout = "10s"
+    port = 5000
+    type = 'http'
+    interval = '15s'
+    timeout = '10s'
+    method = 'GET'
+    path = '/health'
+
+[[vm]]
+memory = '2gb'
+cpu_kind = 'shared'
+cpus = 2
+
+[mounts]
+  source = "pg_data"
+  destination = "/data"
