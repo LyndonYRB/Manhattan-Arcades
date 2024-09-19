@@ -16,8 +16,6 @@ const ArcadePage = ({ user }) => {
   // Function to always get Eastern Time
   const getEasternTime = () => {
     const now = new Date();
-  
-    // Use the Intl.DateTimeFormat API to always get Eastern Time regardless of user's local time zone
     const easternTimeString = new Intl.DateTimeFormat('en-US', {
       timeZone: 'America/New_York',
       hour12: false,
@@ -25,15 +23,9 @@ const ArcadePage = ({ user }) => {
       minute: 'numeric'
     }).format(now);
   
-    // Split the result into hours and minutes
     const [hours, minutes] = easternTimeString.split(':').map(Number);
-  
-    // Combine hours and minutes into decimal format (e.g., 11:30 -> 11.5)
-    const easternTimeInDecimal = hours + minutes / 60;
-  
-    return easternTimeInDecimal;
+    return hours + minutes / 60;
   };
-  
 
   const checkIfOpen = (hours) => {
     const currentDay = new Intl.DateTimeFormat('en-US', {
@@ -41,68 +33,71 @@ const ArcadePage = ({ user }) => {
       weekday: 'long'
     }).format(new Date());
   
-    const currentTime = getEasternTime(); // Now this is always in Eastern Time
-    console.log("Current Day:", currentDay);
-    console.log("Current Time (in decimal):", currentTime);
-    console.log("Today's Arcade Hours (from DB):", hours[currentDay]);
-  
+    const currentTime = getEasternTime(); 
     const todayHours = hours[currentDay];
   
     if (todayHours) {
       let openingTime = parseFloat(todayHours.open);
       let closingTime = parseFloat(todayHours.close);
   
-      // Handle special case for midnight (00:00)
-      if (closingTime === 24) {
-        closingTime = 23.99; // Treat midnight as 11:59 PM of the same day
-      }
-  
-      // Handle closing time that goes past midnight
+      if (closingTime === 24) closingTime = 23.99;
       if (closingTime < openingTime) {
-        if (currentTime < openingTime) {
-          currentTime += 24; // Adjust time to reflect past-midnight hours
-        }
-        closingTime += 24; // Adjust closing time to past-midnight
+        if (currentTime < openingTime) currentTime += 24;
+        closingTime += 24;
       }
   
-      console.log("Opening Time:", openingTime);
-      console.log("Closing Time:", closingTime);
-  
-      // Check if the current time is within open hours
       if (currentTime >= openingTime && currentTime < closingTime) {
-        setIsOpen(true); // Arcade is open
+        setIsOpen(true);
       } else {
-        setIsOpen(false); // Arcade is closed
+        setIsOpen(false);
       }
     } else {
-      setIsOpen(false); // If no hours found for the day, assume closed
+      setIsOpen(false);
     }
   };
-  
-  
-  
-  
 
   const fetchArcadeDetails = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/arcades/${id}`);
-      const data = await response.json();
-      setArcade(data);
-      checkIfOpen(data.hours_of_operation);
+      
+      // Log the full response for debugging
+      console.log('Arcade details response:', response);
+      
+      if (response.ok) {
+        const data = await response.json();
+        setArcade(data);
+        checkIfOpen(data.hours_of_operation);
+      } else {
+        const errorText = await response.text(); // Log the error text
+        console.error('Error fetching arcade details:', errorText);
+        throw new Error(`Failed to fetch arcade details: ${response.status}`);
+      }
     } catch (error) {
       console.error('Error fetching arcade details:', error);
     }
   };
-
+  
   const fetchArcadeReviews = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/arcades/${id}/comments`);
-      const data = await response.json();
-      setReviews(data);
+      console.log('Arcade reviews response: ', response);
+  
+      // Check content type
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const data = await response.json();
+        setReviews(data);
+      } else {
+        const errorText = await response.text(); // Log the error text
+        console.error('Received non-JSON response:', errorText);
+        throw new Error(`Expected JSON but received ${contentType}`);
+      }
     } catch (error) {
       console.error('Error fetching arcade reviews:', error);
     }
   };
+  
+  
 
   useEffect(() => {
     fetchArcadeDetails();
@@ -222,7 +217,6 @@ const ArcadePage = ({ user }) => {
             <p><strong>Serves Alcohol:</strong> {arcade.serves_alcohol ? 'Yes' : 'No'}</p>
             <p><strong>Serves Food:</strong> {arcade.serves_food ? 'Yes' : 'No'}</p>
 
-            {/* Nearest Trains Section */}
             <p><strong>Nearest Trains:</strong></p>
             <div className="train-icons">
               {arcade.nearest_train && JSON.parse(arcade.nearest_train).map((train, index) => (

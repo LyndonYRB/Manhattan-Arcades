@@ -8,10 +8,9 @@ const ProfilePage = ({ user }) => {
   const [editedComment, setEditedComment] = useState('');
   const [editedRating, setEditedRating] = useState(0);
   const [reviewIdBeingEdited, setReviewIdBeingEdited] = useState(null);
-  const [error, setError] = useState(''); // Error state for feedback
-
+  const [error, setError] = useState('');
   const navigate = useNavigate();
-  const baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5000';  // Base URL for API
+  const baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -31,39 +30,28 @@ const ProfilePage = ({ user }) => {
           },
         });
   
-        // Log the response headers and body for debugging
-        const contentType = response.headers.get('content-type');
-        console.log('Content-Type:', contentType);
-  
-        if (contentType && contentType.includes('application/json')) {
+        if (response.ok) {
           const data = await response.json();
-          console.log('Fetched reviews:', data);
-
           if (data.comments) {
             setReviews(data.comments);
           } else {
             setReviews([]);
           }
         } else {
-          const text = await response.text(); // Get response as text for debugging
-          console.log('Raw response:', text); // Log the entire response to see what's being returned
-
-          if (!response.ok) {
-            setError(`Error: ${response.status}`);
-            return;
-          }
-
-          setError('Unexpected response format');
+          const errorText = await response.text();
+          console.error('Error fetching reviews:', errorText);
+          setError('Error fetching reviews');
         }
       } catch (error) {
         console.error('Error fetching reviews:', error);
-        setError('Error fetching reviews.');
+        setError('Error fetching reviews');
       }
     };
   
     fetchReviews();
   }, [navigate, baseURL]);
 
+  // Handle deleting a review
   const handleDelete = async (reviewId) => {
     const confirmed = window.confirm('Are you sure you want to delete this review?');
     if (!confirmed) return;
@@ -87,6 +75,7 @@ const ProfilePage = ({ user }) => {
     }
   };
 
+  // Handle editing a review
   const handleEdit = (reviewId) => {
     const reviewToEdit = reviews.find((review) => review.id === reviewId);
     setEditedComment(reviewToEdit.comment);
@@ -94,14 +83,13 @@ const ProfilePage = ({ user }) => {
     setReviewIdBeingEdited(reviewId);
   };
 
+  // Save the edited review
   const handleSaveEdit = async () => {
     const updatedReviewData = {
       comment: editedComment,
       rating: editedRating,
     };
-  
-    console.log("Attempting to edit review with ID:", reviewIdBeingEdited); // Log the review ID
-  
+
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`${baseURL}/api/comments/${reviewIdBeingEdited}`, {
@@ -112,7 +100,7 @@ const ProfilePage = ({ user }) => {
         },
         body: JSON.stringify(updatedReviewData),
       });
-  
+
       if (response.ok) {
         const updatedReview = await response.json();
         setReviews((prevReviews) =>
@@ -145,6 +133,7 @@ const ProfilePage = ({ user }) => {
                 <p>{new Date(review.created_at).toLocaleDateString()}</p>
                 <p>Rating: {review.rating} stars</p>
                 <p>{review.comment}</p>
+
                 {reviewIdBeingEdited === review.id ? (
                   <div>
                     <textarea
