@@ -111,12 +111,12 @@ const fetchArcadeReviews = async () => {
       alert('You must be logged in to submit a review.');
       return;
     }
-
+  
     if (rating === 0 || review.trim() === '') {
       alert('You must provide both a rating and a review.');
       return;
     }
-
+  
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/arcades/${id}/comments`, {
         method: 'POST',
@@ -126,7 +126,7 @@ const fetchArcadeReviews = async () => {
         },
         body: JSON.stringify({ rating, comment: review }),
       });
-
+  
       if (response.ok) {
         const newComment = await response.json();
         setReviews((prevReviews) => [newComment, ...prevReviews]);
@@ -138,8 +138,10 @@ const fetchArcadeReviews = async () => {
       }
     } catch (error) {
       console.error('Error submitting review:', error);
+      alert('An error occurred while submitting your review. Please try again later.');
     }
   };
+  
 
   const prevSlide = () => {
     if (arcade && arcade.gallery) {

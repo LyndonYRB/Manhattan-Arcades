@@ -191,17 +191,27 @@ app.get('/api/arcades/:id/comments', async (req, res) => {
 
 
 // CREATE: Add a comment to an arcade
+// CREATE: Add a comment to an arcade
 app.post('/api/arcades/:id/comments', authenticateToken, async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; // Arcade ID
   const { comment, rating } = req.body;
-
-  console.log('Review submission:', { id, comment, rating });
 
   if (!comment || !rating) {
     return res.status(400).json({ msg: 'Both comment and rating are required' });
   }
 
   try {
+    // Check if the user has already submitted a review for this arcade
+    const existingReview = await pool.query(
+      'SELECT * FROM comments WHERE user_id = $1 AND arcade_id = $2',
+      [req.user.userId, id]
+    );
+
+    if (existingReview.rows.length > 0) {
+      return res.status(400).json({ msg: 'You have already submitted a review for this arcade.' });
+    }
+
+    // If no existing review, create a new one
     const newComment = await pool.query(
       `INSERT INTO comments (user_id, arcade_id, comment, rating) 
        VALUES ($1, $2, $3, $4) 
@@ -210,13 +220,13 @@ app.post('/api/arcades/:id/comments', authenticateToken, async (req, res) => {
       [req.user.userId, id, comment, rating]
     );
 
-    console.log('New comment added:', newComment.rows[0]);
     res.json(newComment.rows[0]);
   } catch (err) {
     console.error('Error creating comment:', err);
     res.status(500).send('Server error');
   }
 });
+
 
 
 // READ: Get reviews for the logged-in user
