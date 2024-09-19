@@ -60,7 +60,7 @@ const ArcadePage = ({ user }) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/arcades/${id}`);
       console.log('Response URL:', response.url);
-      console.log('Response Headers:', response.headers);
+      console.log('Response Headers:', response.headers.get('content-type')); // Log content type
       
       if (response.ok) {
         const data = await response.json();
@@ -76,8 +76,6 @@ const ArcadePage = ({ user }) => {
     }
   };
   
-  
-
   const fetchArcadeReviews = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/arcades/${id}/comments`);
