@@ -33,15 +33,19 @@ app.get('/health', (req, res) => {
 app.use(
   helmet({
     contentSecurityPolicy: {
+      useDefaults: true,
       directives: {
         "default-src": ["'self'", 'https:'],
-        "script-src": ["'self'", 'https:'],
-        "style-src": ["'self'", 'https:'],
-        "img-src": ["'self'", 'data:', 'https:']
+        "script-src": ["'self'", "'unsafe-inline'", 'https:'],
+        "style-src": ["'self'", "'unsafe-inline'", 'https:'],
+        "img-src": ["'self'", 'data:', 'https:'],
+        "connect-src": ["'self'", 'https:'],
+        "font-src": ["'self'", 'https:'],
       },
     },
   })
 );
+
 
 // User Registration Route
 app.post('/api/auth/register', async (req, res) => {
