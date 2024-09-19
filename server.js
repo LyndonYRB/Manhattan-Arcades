@@ -7,6 +7,7 @@ const cors = require('cors');
 require('dotenv').config();
 const authenticateToken = require('./authMiddleware');
 const path = require('path');
+const helmet = require('helmet');
 
 // Initialize Express app
 const app = express();
@@ -28,6 +29,19 @@ const pool = new Pool({
 app.get('/health', (req, res) => {
   res.status(200).send('OK');
 });
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        "default-src": ["'self'", 'https:'],
+        "script-src": ["'self'", 'https:'],
+        "style-src": ["'self'", 'https:'],
+        "img-src": ["'self'", 'data:', 'https:']
+      },
+    },
+  })
+);
 
 // User Registration Route
 app.post('/api/auth/register', async (req, res) => {
