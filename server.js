@@ -195,6 +195,8 @@ app.post('/api/arcades/:id/comments', authenticateToken, async (req, res) => {
   const { id } = req.params;
   const { comment, rating } = req.body;
 
+  console.log('Review submission:', { id, comment, rating });
+
   if (!comment || !rating) {
     return res.status(400).json({ msg: 'Both comment and rating are required' });
   }
@@ -208,12 +210,14 @@ app.post('/api/arcades/:id/comments', authenticateToken, async (req, res) => {
       [req.user.userId, id, comment, rating]
     );
 
+    console.log('New comment added:', newComment.rows[0]);
     res.json(newComment.rows[0]);
   } catch (err) {
     console.error('Error creating comment:', err);
     res.status(500).send('Server error');
   }
 });
+
 
 // READ: Get reviews for the logged-in user
 app.get('/api/profile', authenticateToken, async (req, res) => {
