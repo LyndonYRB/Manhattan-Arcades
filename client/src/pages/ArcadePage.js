@@ -29,72 +29,73 @@ const ArcadePage = ({ user }) => {
 
   const checkIfOpen = (hours) => {
     const currentDay = new Intl.DateTimeFormat('en-US', {
-      timeZone: 'America/New_York',
-      weekday: 'long',
+        timeZone: 'America/New_York',
+        weekday: 'long',
     }).format(new Date());
 
-    const currentTime = getEasternTime();
+    let currentTime = getEasternTime(); // Changed to 'let' to allow reassignment
     const todayHours = hours[currentDay];
 
     if (todayHours) {
-      let openingTime = parseFloat(todayHours.open);
-      let closingTime = parseFloat(todayHours.close);
+        let openingTime = parseFloat(todayHours.open);
+        let closingTime = parseFloat(todayHours.close);
 
-      if (closingTime === 24) closingTime = 23.99;
-      if (closingTime < openingTime) {
-        if (currentTime < openingTime) currentTime += 24;
-        closingTime += 24;
-      }
+        if (closingTime === 24) closingTime = 23.99;
+        if (closingTime < openingTime) {
+            if (currentTime < openingTime) currentTime += 24;
+            closingTime += 24;
+        }
 
-      if (currentTime >= openingTime && currentTime < closingTime) {
-        setIsOpen(true);
-      } else {
-        setIsOpen(false);
-      }
+        if (currentTime >= openingTime && currentTime < closingTime) {
+            setIsOpen(true);
+        } else {
+            setIsOpen(false);
+        }
     } else {
-      setIsOpen(false);
+        setIsOpen(false);
     }
-  };
+};
 
-  const fetchArcadeDetails = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/arcades/${id}`);
-      console.log('Response URL:', response.url);
-      console.log('Response Headers:', response.headers.get('content-type')); // Log content type
-      
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Fetched arcade data:', data);
-        setArcade(data);
-        checkIfOpen(data.hours_of_operation);
-      } else {
-        console.error('Error fetching arcade details:', response.status);
-        throw new Error(`Failed to fetch arcade details: ${response.status}`);
-      }
-    } catch (error) {
-      console.error('Error fetching arcade details:', error);
+const fetchArcadeDetails = async () => {
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/arcades/${id}`);
+    const responseText = await response.text();
+
+    if (response.ok) {
+      const data = JSON.parse(responseText);
+      setArcade(data);
+      checkIfOpen(data.hours_of_operation);
+    } else {
+      console.error('Error fetching arcade details:', response.status);
     }
-  };
+  } catch (error) {
+    console.error('Error fetching arcade details:', error);
+  }
+};
+
+
+const fetchArcadeReviews = async () => {
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/arcades/${id}/comments`);
+    const contentType = response.headers.get('content-type');
+
+    if (response.ok && contentType && contentType.includes('application/json')) {
+      const data = await response.json();
+      console.log('Fetched reviews data:', data);
+      setReviews(data);
+    } else {
+      const errorText = await response.text();
+      console.error('Received non-JSON response:', errorText);
+      throw new Error(`Expected JSON but received ${contentType}`);
+    }
+  } catch (error) {
+    console.error('Error fetching arcade reviews:', error);
+  }
+};
+
+
   
-  const fetchArcadeReviews = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/arcades/${id}/comments`);
-      console.log('Arcade reviews response: ', response);
-
-      const contentType = response.headers.get('content-type');
-      if (contentType && contentType.includes('application/json')) {
-        const data = await response.json();
-        setReviews(data);
-      } else {
-        const errorText = await response.text();
-        console.error('Received non-JSON response:', errorText);
-        throw new Error(`Expected JSON but received ${contentType}`);
-      }
-    } catch (error) {
-      console.error('Error fetching arcade reviews:', error);
-    }
-  };
-
+  
   useEffect(() => {
     fetchArcadeDetails();
     fetchArcadeReviews();
@@ -141,11 +142,15 @@ const ArcadePage = ({ user }) => {
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? arcade.gallery.length - 1 : prev - 1));
+    if (arcade && arcade.gallery) {
+      setCurrentSlide((prev) => (prev === 0 ? arcade.gallery.length - 1 : prev - 1));
+    }
   };
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev === arcade.gallery.length - 1 ? 0 : prev + 1));
+    if (arcade && arcade.gallery) {
+      setCurrentSlide((prev) => (prev === arcade.gallery.length - 1 ? 0 : prev + 1));
+    }
   };
 
   if (!arcade) {
@@ -164,11 +169,13 @@ const ArcadePage = ({ user }) => {
           </div>
           <div className="arcade-slideshow">
             <button className="slide-button" onClick={prevSlide}>&lt;</button>
-            <img
-              src={`/assets/arcade-images/${arcade.gallery[currentSlide]}`}
-              alt={`Slideshow ${currentSlide + 1}`}
-              className="slideshow-image"
-            />
+            {arcade.gallery && (
+              <img
+                src={`/assets/arcade-images/${arcade.gallery[currentSlide]}`}
+                alt={`Slideshow ${currentSlide + 1}`}
+                className="slideshow-image"
+              />
+            )}
             <button className="slide-button" onClick={nextSlide}>&gt;</button>
           </div>
 
@@ -203,7 +210,7 @@ const ArcadePage = ({ user }) => {
           <div className="arcade-info-div">
             <p><strong>Hours:</strong></p>
             <ul>
-              {Object.entries(arcade.hours_of_operation).map(([day, hours]) => (
+              {arcade.hours_of_operation && Object.entries(arcade.hours_of_operation).map(([day, hours]) => (
                 <li key={day}>
                   {day}: {hours.open} - {hours.close}
                 </li>

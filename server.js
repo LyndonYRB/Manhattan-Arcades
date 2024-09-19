@@ -17,20 +17,14 @@ app.use(cors({ origin: '*' })); // Enable CORS for all routes
 app.use(express.json()); // Parse incoming JSON data
 
 // Configure the PostgreSQL connection pool
-// const pool = new Pool({
-//   user: process.env.DB_USER,
-//   host: process.env.DB_HOST,
-//   database: process.env.DB_NAME,
-//   password: process.env.DB_PASSWORD,
-//   port: process.env.DB_PORT,
-// });
-
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
+
 
 // Health check route
 app.get('/health', (req, res) => {
@@ -53,7 +47,7 @@ app.use(
   })
 );
 
-
+// API Routes
 
 // User Registration Route
 app.post('/api/auth/register', async (req, res) => {
@@ -157,7 +151,7 @@ app.get('/api/arcades/:id', async (req, res) => {
 
   try {
     const arcade = await pool.query('SELECT * FROM arcades WHERE id = $1', [id]);
-    
+
     if (arcade.rows.length === 0) {
       return res.status(404).json({ msg: 'Arcade not found' });
     }
@@ -169,43 +163,18 @@ app.get('/api/arcades/:id', async (req, res) => {
   }
 });
 
-// UPDATE: Edit an arcade
-app.put('/api/arcades/:id', authenticateToken, async (req, res) => {
+// READ: Get comments for an arcade
+app.get('/api/arcades/:id/comments', async (req, res) => {
   const { id } = req.params;
-  const { name, address, days_open, hours_of_operation, serves_alcohol } = req.body;
-
   try {
-    const updatedArcade = await pool.query(
-      'UPDATE arcades SET name = $1, address = $2, days_open = $3, hours_of_operation = $4, serves_alcohol = $5 WHERE id = $6 RETURNING *',
-      [name, address, days_open, hours_of_operation, serves_alcohol, id]
-    );
-
-    if (updatedArcade.rows.length === 0) {
-      return res.status(404).json({ msg: 'Arcade not found' });
+    const arcadeComments = await pool.query('SELECT * FROM comments WHERE arcade_id = $1', [id]);
+    if (arcadeComments.rows.length === 0) {
+      return res.status(404).json({ msg: 'No comments found for this arcade' });
     }
-
-    res.json(updatedArcade.rows[0]);
+    res.json(arcadeComments.rows); // Ensure JSON response
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
-  }
-});
-
-// DELETE: Delete an arcade
-app.delete('/api/arcades/:id', authenticateToken, async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const deletedArcade = await pool.query('DELETE FROM arcades WHERE id = $1 RETURNING *', [id]);
-
-    if (deletedArcade.rows.length === 0) {
-      return res.status(404).json({ msg: 'Arcade not found' });
-    }
-
-    res.json({ message: 'Arcade deleted successfully', arcade: deletedArcade.rows[0] });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).json({ msg: 'Server error' }); // Also ensure JSON response here
   }
 });
 
@@ -213,7 +182,7 @@ app.delete('/api/arcades/:id', authenticateToken, async (req, res) => {
 app.post('/api/arcades/:id/comments', authenticateToken, async (req, res) => {
   const { id } = req.params;
   const { comment, rating } = req.body;
-  
+
   if (!comment || !rating) {
     return res.status(400).json({ msg: 'Both comment and rating are required' });
   }
@@ -230,7 +199,6 @@ app.post('/api/arcades/:id/comments', authenticateToken, async (req, res) => {
     res.json(newComment.rows[0]);
   } catch (err) {
     console.error('Error creating comment:', err);
-    res.status
     res.status(500).send('Server error');
   }
 });
