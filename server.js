@@ -18,12 +18,10 @@ app.use(express.json()); // Parse incoming JSON data
 
 // Configure the PostgreSQL connection pool
 const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
 });
+
 
 
 // Health check route
@@ -167,16 +165,23 @@ app.get('/api/arcades/:id', async (req, res) => {
 app.get('/api/arcades/:id/comments', async (req, res) => {
   const { id } = req.params;
   try {
-    const arcadeComments = await pool.query('SELECT * FROM comments WHERE arcade_id = $1', [id]);
+    const arcadeComments = await pool.query(
+      `SELECT comments.*, users.username 
+       FROM comments 
+       JOIN users ON comments.user_id = users.id 
+       WHERE comments.arcade_id = $1`, 
+      [id]
+    );
     if (arcadeComments.rows.length === 0) {
       return res.status(404).json({ msg: 'No comments found for this arcade' });
     }
-    res.json(arcadeComments.rows); // Ensure JSON response
+    res.json(arcadeComments.rows);
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ msg: 'Server error' }); // Also ensure JSON response here
+    res.status(500).json({ msg: 'Server error' });
   }
 });
+
 
 // CREATE: Add a comment to an arcade
 app.post('/api/arcades/:id/comments', authenticateToken, async (req, res) => {
