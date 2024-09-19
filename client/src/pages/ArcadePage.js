@@ -20,9 +20,9 @@ const ArcadePage = ({ user }) => {
       timeZone: 'America/New_York',
       hour12: false,
       hour: 'numeric',
-      minute: 'numeric'
+      minute: 'numeric',
     }).format(now);
-  
+
     const [hours, minutes] = easternTimeString.split(':').map(Number);
     return hours + minutes / 60;
   };
@@ -30,22 +30,22 @@ const ArcadePage = ({ user }) => {
   const checkIfOpen = (hours) => {
     const currentDay = new Intl.DateTimeFormat('en-US', {
       timeZone: 'America/New_York',
-      weekday: 'long'
+      weekday: 'long',
     }).format(new Date());
-  
-    const currentTime = getEasternTime(); 
+
+    const currentTime = getEasternTime();
     const todayHours = hours[currentDay];
-  
+
     if (todayHours) {
       let openingTime = parseFloat(todayHours.open);
       let closingTime = parseFloat(todayHours.close);
-  
+
       if (closingTime === 24) closingTime = 23.99;
       if (closingTime < openingTime) {
         if (currentTime < openingTime) currentTime += 24;
         closingTime += 24;
       }
-  
+
       if (currentTime >= openingTime && currentTime < closingTime) {
         setIsOpen(true);
       } else {
@@ -59,16 +59,15 @@ const ArcadePage = ({ user }) => {
   const fetchArcadeDetails = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/arcades/${id}`);
-      
-      // Log the full response for debugging
       console.log('Arcade details response:', response);
-      
+
       if (response.ok) {
         const data = await response.json();
+        console.log('Fetched arcade data:', data);
         setArcade(data);
         checkIfOpen(data.hours_of_operation);
       } else {
-        const errorText = await response.text(); // Log the error text
+        const errorText = await response.text();
         console.error('Error fetching arcade details:', errorText);
         throw new Error(`Failed to fetch arcade details: ${response.status}`);
       }
@@ -76,19 +75,18 @@ const ArcadePage = ({ user }) => {
       console.error('Error fetching arcade details:', error);
     }
   };
-  
+
   const fetchArcadeReviews = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/arcades/${id}/comments`);
       console.log('Arcade reviews response: ', response);
-  
-      // Check content type
+
       const contentType = response.headers.get('content-type');
       if (contentType && contentType.includes('application/json')) {
         const data = await response.json();
         setReviews(data);
       } else {
-        const errorText = await response.text(); // Log the error text
+        const errorText = await response.text();
         console.error('Received non-JSON response:', errorText);
         throw new Error(`Expected JSON but received ${contentType}`);
       }
@@ -96,8 +94,6 @@ const ArcadePage = ({ user }) => {
       console.error('Error fetching arcade reviews:', error);
     }
   };
-  
-  
 
   useEffect(() => {
     fetchArcadeDetails();
