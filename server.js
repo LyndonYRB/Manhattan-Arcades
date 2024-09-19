@@ -17,12 +17,19 @@ app.use(cors({ origin: '*' })); // Enable CORS for all routes
 app.use(express.json()); // Parse incoming JSON data
 
 // Configure the PostgreSQL connection pool
+// const pool = new Pool({
+//   user: process.env.DB_USER,
+//   host: process.env.DB_HOST,
+//   database: process.env.DB_NAME,
+//   password: process.env.DB_PASSWORD,
+//   port: process.env.DB_PORT,
+// });
+
 const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 // Health check route
@@ -39,12 +46,13 @@ app.use(
         "script-src": ["'self'", "'unsafe-inline'", 'https:'],
         "style-src": ["'self'", "'unsafe-inline'", 'https:'],
         "img-src": ["'self'", 'data:', 'https:'],
-        "connect-src": ["'self'", 'https:'],
+        "connect-src": ["'self'", 'https:', 'http://localhost:5000'], // Allow API calls to localhost in development
         "font-src": ["'self'", 'https:'],
       },
     },
   })
 );
+
 
 
 // User Registration Route
