@@ -18,9 +18,13 @@ app.use(express.json()); // Parse incoming JSON data
 
 // Configure the PostgreSQL connection pool
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString:
+    process.env.NODE_ENV === 'production'
+      ? process.env.DATABASE_URL // Use Heroku's DATABASE_URL in production
+      : `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`, // Use local DB settings in development
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
 });
+
 
 
 
@@ -129,6 +133,7 @@ app.post('/api/arcades', authenticateToken, async (req, res) => {
 // READ: Get all arcades with average ratings
 app.get('/api/arcades', async (req, res) => {
   try {
+    console.log('Fetching arcades...');
     const allArcades = await pool.query(`
       SELECT arcades.*, 
       COALESCE(ROUND(AVG(comments.rating), 1), 0) AS average_rating
@@ -136,12 +141,14 @@ app.get('/api/arcades', async (req, res) => {
       LEFT JOIN comments ON arcades.id = comments.arcade_id
       GROUP BY arcades.id
     `);
+    console.log('Arcades fetched successfully:', allArcades.rows);
     res.json(allArcades.rows);
   } catch (err) {
-    console.error(err.message);
+    console.error('Error fetching arcades:', err.message);
     res.status(500).send('Server error');
   }
 });
+
 
 // READ: Get a single arcade by ID
 app.get('/api/arcades/:id', async (req, res) => {

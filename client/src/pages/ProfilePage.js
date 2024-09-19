@@ -84,41 +84,45 @@ const ProfilePage = ({ user }) => {
   };
 
   // Save the edited review
-  const handleSaveEdit = async () => {
-    const updatedReviewData = {
-      comment: editedComment,
-      rating: editedRating,
-    };
+  // Save the edited review
+const handleSaveEdit = async () => {
+  const updatedReviewData = {
+    comment: editedComment,
+    rating: editedRating,
+  };
 
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${baseURL}/api/comments/${reviewIdBeingEdited}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(updatedReviewData),
-      });
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${baseURL}/api/comments/${reviewIdBeingEdited}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(updatedReviewData),
+    });
 
-      if (response.ok) {
-        const updatedReview = await response.json();
-        setReviews((prevReviews) =>
-          prevReviews.map((review) =>
-            review.id === reviewIdBeingEdited ? updatedReview : review
-          )
-        );
-        setReviewIdBeingEdited(null);
-        setEditedComment('');
-        setEditedRating(0);
-      } else {
-        setError('Error editing review');
-      }
-    } catch (error) {
-      console.error('Error editing review:', error);
+    if (response.ok) {
+      const updatedReview = await response.json();
+      setReviews((prevReviews) =>
+        prevReviews.map((review) =>
+          review.id === reviewIdBeingEdited
+            ? { ...review, ...updatedReview }  // Ensure the arcade_name is not overwritten
+            : review
+        )
+      );
+      setReviewIdBeingEdited(null);
+      setEditedComment('');
+      setEditedRating(0);
+    } else {
       setError('Error editing review');
     }
-  };
+  } catch (error) {
+    console.error('Error editing review:', error);
+    setError('Error editing review');
+  }
+};
+
 
   return (
     <div className="profile-page">
