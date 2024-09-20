@@ -296,7 +296,7 @@ app.delete('/api/comments/:commentId', authenticateToken, async (req, res) => {
 // Serve static files from React frontend (after the API routes)
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
 // Test database connection
