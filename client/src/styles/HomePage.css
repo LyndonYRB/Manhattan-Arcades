@@ -19,7 +19,7 @@
   .home-page-content {
     margin-left: 20px; /* Reduced margin for mobile view */
     margin-right: 20px; /* Reduced margin for mobile view */
-    margin-top: 70px; /* Adjust top margin to avoid obstruction by the title bar */
+    margin-top: 100px; /* Adjust top margin to avoid obstruction by the title bar */
     padding: 5px; /* Smaller padding to fit content */
   }
 
