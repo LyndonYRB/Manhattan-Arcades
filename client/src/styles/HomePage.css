@@ -14,6 +14,32 @@
   background-color: rgba(157, 157, 157, 0.8); /* Maintain slight transparency */
 }
 
+/* HomePage.css */
+
+/* Style for the star container */
+.stars {
+  display: flex;
+  justify-content: center; /* Centers the stars horizontally */
+  margin-top: 5px; /* Adds a bit of space between "Average Rating" and stars */
+}
+
+/* Style for the stars */
+.filled-star, .empty-star {
+  font-size: 30px; /* Adjust this value to make the stars bigger */
+  margin: 0 3px; /* Adds space between stars */
+}
+
+/* Color for filled stars */
+.filled-star {
+  color: gold; /* Set the filled stars to gold */
+}
+
+/* Color for unfilled stars */
+.empty-star {
+  color: lightgray; /* Set the unfilled stars to light gray */
+}
+
+
 /* Mobile View Adjustments */
 @media only screen and (max-width: 600px) {
   .home-page-content {

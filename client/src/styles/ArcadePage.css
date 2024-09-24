@@ -181,22 +181,21 @@
 
   .arcade-slideshow {
     order: 2;
+    margin-bottom: 10px; /* Space between slideshow and the next section */
   }
 
-  /* Re-order content inside .arcade-left */
   .arcade-info-div {
-    order: 3; /* Place right under the slideshow */
-    margin-top: -110vh; /* Adjusted to be closer to the slideshow */
-
+    order: 3;
+    margin-bottom: 20px; /* Space between arcade info and the next section */
   }
 
   .review-section {
     order: 4;
-    margin-top: 75vh; /* Adjusted to be right below the arcade-info-div */
+    margin-bottom: 20px; /* Space between review section and the next section */
   }
 
   .reviews-list {
     order: 5;
-    margin-top: 45vh; /* Adjusted to bring it higher and closer to the review section */
+    margin-bottom: 20px; /* Space at the bottom */
   }
 }
