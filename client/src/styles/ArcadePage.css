@@ -1,8 +1,9 @@
+/* Arcade page styles */
 .arcade-page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px;
+  padding: 10%;
 }
 
 .arcade-header {
@@ -82,7 +83,6 @@
   color: gold; /* Selected stars color */
 }
 
-
 .submit-review {
   width: 90%; /* Adjusted to fit the parent div */
   background-color: #28a745;
@@ -144,9 +144,59 @@
   background-color: #0056b3;
 }
 
-
 .train-icon {
   width: 30px;
   height: 30px;
   margin: 5px;
+}
+
+/* Mobile View Adjustments */
+@media only screen and (max-width: 600px) {
+  .arcade-content {
+    flex-direction: column;
+  }
+
+  .arcade-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-top: 10px;
+    font-size: 2em;
+    width: 100%;
+  }
+
+  .arcade-left, .arcade-right {
+    width: 90%;
+  }
+
+  .arcade-header {
+    margin-top: 5vh;
+    margin-bottom: -5vh;
+    font-size: 1.5em;
+  }
+
+  .slideshow-image {
+    width: 85%;
+    height: auto;
+  }
+
+  .arcade-slideshow {
+    order: 2;
+  }
+
+  /* Re-order content inside .arcade-left */
+  .arcade-info-div {
+    order: 3; /* Place right under the slideshow */
+    margin-top: -110vh; /* Adjusted to be closer to the slideshow */
+
+  }
+
+  .review-section {
+    order: 4;
+    margin-top: 75vh; /* Adjusted to be right below the arcade-info-div */
+  }
+
+  .reviews-list {
+    order: 5;
+    margin-top: 45vh; /* Adjusted to bring it higher and closer to the review section */
+  }
 }

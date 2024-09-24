@@ -1,3 +1,6 @@
+/* HomePage.css */
+
+/* Default styles for larger screens */
 .home-page-content {
   margin-left: 220px; /* Adjust to match the expanded width of the left sidebar */
   margin-right: 220px; /* Adjust to match the expanded width of the right sidebar */
@@ -8,52 +11,58 @@
 }
 
 .arcade-info {
-  background-color: rgba(97, 96, 96, 0.8); /* Slight transparency */
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  margin-top: 20px; /* Add margin-top to push it down */
+  background-color: rgba(157, 157, 157, 0.8); /* Maintain slight transparency */
 }
 
-.arcade-info h2 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
+/* Mobile View Adjustments */
+@media only screen and (max-width: 600px) {
+  .home-page-content {
+    margin-left: 20px; /* Reduced margin for mobile view */
+    margin-right: 20px; /* Reduced margin for mobile view */
+    margin-top: 70px; /* Adjust top margin to avoid obstruction by the title bar */
+    padding: 5px; /* Smaller padding to fit content */
+  }
 
-.arcade-info p {
-  margin-bottom: 5px;
-}
+  .arcade-info {
+    background-color: rgba(157, 157, 157, 0.8); /* Maintain slight transparency */
+    padding: 15px; /* Slightly reduce padding for mobile */
+    margin-top: 15vh; /* Adjust top margin for spacing */
+    font-size: 16px; /* Reduce font size for better fit */
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
 
-.arcade-info .rating {
-  font-size: 18px;
-  margin-top: 10px;
-}
+  .arcade-info h2 {
+    font-size: 20px; /* Adjust font size for mobile */
+  }
 
-.arcade-info .more-info {
-  margin-top: 15px;
-  display: inline-block;
-  padding: 10px 15px;
-  background-color: #adabab;
-  color: rgb(7, 6, 6);
-  text-decoration: none;
-  border-radius: 5px;
-}
+  .arcade-info p,
+  .arcade-info .rating {
+    font-size: 16px; /* Adjust paragraph and rating font size */
+  }
 
-/* Style for the star container */
-.stars {
-  display: flex;
-  justify-content: center; /* Centers the stars horizontally */
-  margin-top: 5px; /* Adds a bit of space between "Average Rating" and stars */
-}
+  .arcade-info .more-info {
+    padding: .2vh 1vw; /* Increase padding for a more button-like feel */
+    background-color: #007bff; /* Use a primary color for the button */
+    color: white; /* White text for contrast */
+    text-decoration: none; /* Remove underline */
+    border-radius: 10px; /* Rounded corners for a button look */
+    border: 1px solid #007bff; /* Add a border */
+    font-size: 1.2rem; /* Adjust font size for better readability */
+    text-align: center; /* Center the text */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for hover effects */
+  }
 
-/* Style for the stars */
-.filled-star, .empty-star {
-  font-size: 30px; /* Adjust this value to make the stars bigger */
-  color: gold; /* Color for filled stars */
-  margin: 0 3px; /* Adds space between stars */
-}
+  .arcade-info .more-info:hover {
+    background-color: #0056b3; /* Darken the button color on hover */
+    color: #e2e6ea; /* Lighten the text color on hover */
+  }
 
-.empty-star {
-  color: lightgray; /* Color for empty stars */
-}
+  .stars {
+    margin-top: 10px; /* Adjust spacing for stars */
+  }
 
+  .filled-star, .empty-star {
+    font-size: 30px; /* Adjust star size for mobile */
+  }
+}

@@ -1,4 +1,4 @@
-
+/*TitleBar.css*/
 .title-bar {
   z-index: 1000; /* Keep it above the other content */
   background-color: var(--bar-background-color);
@@ -12,4 +12,23 @@
   top: 0;
   left: 0;
  
+}
+
+@media only screen and (max-width: 600px) {
+  .title-bar {
+    z-index: 1000; /* Keep it above other content */
+    background-color: var(--bar-background-color);
+    color: white;
+    text-align: center; /* Center text horizontally */
+    padding: 0px 5px; /* Add some padding for spacing */
+    font-size: 20px;
+    font-weight: bold;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex; /* Use flexbox for centering */
+    align-items: center; /* Vertically center the text */
+    justify-content: center; /* Horizontally center the text */
+  }
 }
