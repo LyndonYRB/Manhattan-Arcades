@@ -158,8 +158,10 @@ const RightSidebar = ({
             {isRegistering ? (
               <>
                 <TextField
-                  label="Username"
                   name="username"
+                  placeholder="Username"
+                  inputProps={{ 'aria-label': 'Username' }}
+                  autoComplete="username"
                   value={formData.username}
                   onChange={handleInputChange}
                   onFocus={handleFocus}
@@ -168,8 +170,10 @@ const RightSidebar = ({
                   margin="normal"
                 />
                 <TextField
-                  label="Email"
                   name="email"
+                  placeholder="Email"
+                  inputProps={{ 'aria-label': 'Email' }}
+                  autoComplete="email"
                   value={formData.email}
                   onChange={handleInputChange}
                   onFocus={handleFocus}
@@ -178,9 +182,11 @@ const RightSidebar = ({
                   margin="normal"
                 />
                 <TextField
-                  label="Password"
                   name="password"
                   type="password"
+                  placeholder="Password"
+                  inputProps={{ 'aria-label': 'Password' }}
+                  autoComplete="new-password"
                   value={formData.password}
                   onChange={handleInputChange}
                   onFocus={handleFocus}
@@ -189,9 +195,11 @@ const RightSidebar = ({
                   margin="normal"
                 />
                 <TextField
-                  label="Confirm Password"
                   name="confirmPassword"
                   type="password"
+                  placeholder="Confirm Password"
+                  inputProps={{ 'aria-label': 'Confirm Password' }}
+                  autoComplete="new-password"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
                   onFocus={handleFocus}
@@ -210,8 +218,10 @@ const RightSidebar = ({
             ) : (
               <>
                 <TextField
-                  label="Email"
                   name="email"
+                  placeholder="Email"
+                  inputProps={{ 'aria-label': 'Email' }}
+                  autoComplete="email"
                   value={formData.email}
                   onChange={handleInputChange}
                   onFocus={handleFocus}
@@ -220,9 +230,11 @@ const RightSidebar = ({
                   margin="normal"
                 />
                 <TextField
-                  label="Password"
                   name="password"
                   type="password"
+                  placeholder="Password"
+                  inputProps={{ 'aria-label': 'Password' }}
+                  autoComplete="current-password"
                   value={formData.password}
                   onChange={handleInputChange}
                   onFocus={handleFocus}
