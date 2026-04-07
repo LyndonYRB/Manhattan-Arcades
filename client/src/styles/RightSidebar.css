@@ -127,3 +127,58 @@
     width: 100%; /* Buttons and inputs take full width within the sidebar */
   }
 }
+/* Force login field text + placeholder colors inside right sidebar */
+.right-sidebar .MuiInputBase-root input,
+.right-sidebar .MuiOutlinedInput-root input,
+.right-sidebar .MuiInputBase-input,
+.right-sidebar .MuiOutlinedInput-input,
+.right-sidebar input {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff !important;
+}
+
+.right-sidebar .MuiInputBase-root input::placeholder,
+.right-sidebar .MuiOutlinedInput-root input::placeholder,
+.right-sidebar .MuiInputBase-input::placeholder,
+.right-sidebar .MuiOutlinedInput-input::placeholder,
+.right-sidebar input::placeholder {
+  color: rgba(255, 255, 255, 0.75) !important;
+  opacity: 1 !important;
+}
+
+/* Labels */
+.right-sidebar .MuiInputLabel-root,
+.right-sidebar .MuiFormLabel-root,
+.right-sidebar label {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.right-sidebar .MuiInputLabel-root.Mui-focused,
+.right-sidebar .MuiInputLabel-root.MuiFormLabel-filled,
+.right-sidebar .MuiFormLabel-root.Mui-focused,
+.right-sidebar .MuiFormLabel-root.MuiFormLabel-filled {
+  color: #ffffff !important;
+}
+
+/* Outlined borders */
+.right-sidebar .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.28) !important;
+}
+
+.right-sidebar .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline,
+.right-sidebar .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.55) !important;
+}
+
+/* Chrome autofill */
+.right-sidebar input:-webkit-autofill,
+.right-sidebar input:-webkit-autofill:hover,
+.right-sidebar input:-webkit-autofill:focus,
+.right-sidebar .MuiInputBase-input:-webkit-autofill,
+.right-sidebar .MuiInputBase-input:-webkit-autofill:hover,
+.right-sidebar .MuiInputBase-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff !important;
+  transition: background-color 9999s ease-in-out 0s;
+  box-shadow: 0 0 0 1000px transparent inset !important;
+}
