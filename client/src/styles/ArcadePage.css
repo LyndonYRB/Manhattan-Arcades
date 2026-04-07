@@ -16,6 +16,11 @@
   max-width: 960px;
 }
 
+.arcade-header h1 {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
 .arcade-content {
   display: flex;
   justify-content: space-between;
@@ -44,14 +49,15 @@
 }
 
 .arcade-slideshow {
-  display: flex;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) 42px;
   align-items: center;
-  justify-content: center;
   gap: 12px;
+  width: 100%;
 }
 
 .slideshow-image {
-  width: min(100%, 520px);
+  width: 100%;
   height: 250px;
   border-radius: 10px;
   object-fit: cover;
@@ -77,6 +83,12 @@
   padding: 12px;
   margin-bottom: 10px;
   resize: vertical;
+}
+
+.arcade-description p,
+.comment p,
+.arcade-info-div li {
+  overflow-wrap: anywhere;
 }
 
 .star-rating {
@@ -179,12 +191,12 @@
 /* Mobile View Adjustments */
 @media only screen and (max-width: 600px) {
   .arcade-page {
-    padding: 96px 16px 28px;
+    padding: 84px 16px 24px;
   }
 
   .arcade-content {
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
   }
 
   .arcade-header {
@@ -198,6 +210,8 @@
   .arcade-left, .arcade-right {
     width: 100%;
     box-sizing: border-box;
+    padding: 16px;
+    border-radius: 14px;
   }
 
   .arcade-header {
@@ -206,26 +220,52 @@
 
   .slideshow-image {
     width: 100%;
-    height: auto;
+    height: 200px;
   }
 
   .arcade-slideshow {
     order: 2;
-    margin-bottom: 10px; /* Space between slideshow and the next section */
+    grid-template-columns: 36px minmax(0, 1fr) 36px;
+    gap: 8px;
+    margin-bottom: 8px; /* Space between slideshow and the next section */
+  }
+
+  .slide-button {
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
   }
 
   .arcade-info-div {
     order: 3;
-    margin-bottom: 20px; /* Space between arcade info and the next section */
+    margin-bottom: 16px; /* Space between arcade info and the next section */
   }
 
   .review-section {
     order: 4;
-    margin-bottom: 20px; /* Space between review section and the next section */
+    margin-bottom: 16px; /* Space between review section and the next section */
+  }
+
+  .star-rating {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .star {
+    font-size: 1.75rem;
   }
 
   .reviews-list {
     order: 5;
-    margin-bottom: 20px; /* Space at the bottom */
+    margin-bottom: 12px; /* Space at the bottom */
+  }
+
+  .comment {
+    padding: 12px;
+  }
+
+  .back-button,
+  .submit-review {
+    min-height: 44px;
   }
 }

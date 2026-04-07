@@ -1,12 +1,17 @@
 /*TitleBar.css*/
 .title-bar {
-  z-index: 1000; /* Keep it above the other content */
+  z-index: 1200; /* Keep it above the other content */
   background-color: var(--bar-background-color);
   color: white;
   position: fixed;
   width: 100%;
   top: 0;
   left: 0;
+  box-sizing: border-box;
+}
+
+.title-bar-toggle {
+  display: none;
 }
 
 .title-bar-content {
@@ -41,19 +46,46 @@
     width: 100%;
     top: 0;
     left: 0;
+    min-height: 62px;
   }
 
   .title-bar-content {
     flex-direction: column;
     gap: 2px;
-    padding: 8px 12px;
+    padding: 8px 44px;
+  }
+
+  .title-bar-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+  .title-bar-toggle-left {
+    left: 8px;
+  }
+
+  .title-bar-toggle-right {
+    right: 8px;
   }
 
   .title-bar h1 {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    line-height: 1.15;
   }
 
   .title-bar p {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
+    line-height: 1.2;
   }
 }

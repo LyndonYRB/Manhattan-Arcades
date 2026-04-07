@@ -124,13 +124,15 @@
 /* Mobile View Adjustments */
 @media only screen and (max-width: 600px) {
   .profile-page {
-    margin-top: 70px;
-    margin-left: 13px;
-    margin-right: 10px;
+    margin-top: 78px;
+    margin-left: 16px;
+    margin-right: 16px;
+    padding: 0;
   }
 
   .reviews-container {
-    padding: 0 10px;
+    padding: 0;
+    gap: 14px;
   }
 
   .review-card {
@@ -138,24 +140,28 @@
   }
 
   .star-rating {
-    margin: 5px 5px;
+    margin: 8px 0;
+    justify-content: flex-start;
   }
 
-  /* Increase star size and spacing for mobile view */
   .star {
-    font-size: 7rem; /* Increase size of the stars for easier tapping */
-    margin: 10px; /* Add spacing around each star */
-    cursor:pointer
+    font-size: 2rem;
+    margin: 0 4px 0 0;
+    cursor: pointer;
   }
 
   .review-card button {
-    padding: 5px;
-    font-size: 0.8rem;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    margin: 0 0 8px;
   }
 
   .review-card textarea {
-    padding: 5px;
-    font-size: 0.8rem;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 0.95rem;
   }
 
   .navigation-buttons {
@@ -164,7 +170,8 @@
   }
 
   .navigation-buttons button {
+    min-height: 44px;
     padding: 10px;
-    font-size: 0.8rem;
+    font-size: 0.95rem;
   }
 }

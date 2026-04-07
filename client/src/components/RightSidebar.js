@@ -6,7 +6,13 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/RightSidebar.css';
 
-const RightSidebar = ({ user, setUser }) => {
+const RightSidebar = ({
+  user,
+  setUser,
+  isMobile,
+  isMobileOpen,
+  onRequestClose,
+}) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -27,6 +33,18 @@ const RightSidebar = ({ user, setUser }) => {
       setUser(JSON.parse(storedUser));
     }
   }, [setUser]);
+
+  useEffect(() => {
+    if (isMobileOpen) {
+      setIsExpanded(false);
+    }
+  }, [isMobileOpen]);
+
+  useEffect(() => {
+    if (isMobile) {
+      onRequestClose();
+    }
+  }, [location.pathname, isMobile, onRequestClose]);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -67,6 +85,9 @@ const RightSidebar = ({ user, setUser }) => {
       setUser(user);
       alert(`Welcome, ${user.username}!`);
       setError('');
+      if (isMobile) {
+        onRequestClose();
+      }
     } catch (error) {
       setError('Login failed. Please check your credentials.');
     }
@@ -81,6 +102,9 @@ const RightSidebar = ({ user, setUser }) => {
     } else {
       setUser(null);
     }
+    if (isMobile) {
+      onRequestClose();
+    }
   };
 
   const handleFocus = () => {
@@ -93,10 +117,14 @@ const RightSidebar = ({ user, setUser }) => {
 
   return (
     <div
-      className={`right-sidebar ${isExpanded || isInputFocused ? 'expanded' : ''}`}
-      onMouseEnter={() => setIsExpanded(true)}
+      className={`right-sidebar ${isExpanded || isInputFocused ? 'expanded' : ''}${isMobile ? ' mobile-sidebar' : ''}${isMobileOpen ? ' mobile-open' : ''}`}
+      onMouseEnter={() => {
+        if (!isMobile) {
+          setIsExpanded(true);
+        }
+      }}
       onMouseLeave={() => {
-        if (!isInputFocused) {
+        if (!isMobile && !isInputFocused) {
           setIsExpanded(false);
         }
       }}
@@ -107,7 +135,18 @@ const RightSidebar = ({ user, setUser }) => {
             <Typography variant="h6" component="div" gutterBottom>
               Welcome, {user.username}
             </Typography>
-            <Button variant="contained" color="primary" component={Link} to="/profile" fullWidth>
+            <Button
+              variant="contained"
+              color="primary"
+              component={Link}
+              to="/profile"
+              fullWidth
+              onClick={() => {
+                if (isMobile) {
+                  onRequestClose();
+                }
+              }}
+            >
               <span>Profile</span>
             </Button>
             <Button variant="contained" color="secondary" onClick={handleLogout} fullWidth style={{ marginTop: '10px' }}>

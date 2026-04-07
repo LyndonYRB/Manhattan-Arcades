@@ -145,43 +145,49 @@
 /* Mobile View Adjustments */
 @media only screen and (max-width: 600px) {
   .home-page-content {
-    margin-left: 20px; /* Reduced margin for mobile view */
-    margin-right: 20px; /* Reduced margin for mobile view */
-    margin-top: 100px; /* Adjust top margin to avoid obstruction by the title bar */
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 82px;
     min-height: auto;
-    padding: 12px 0 24px;
+    padding: 12px 16px 20px;
   }
 
   .arcade-info,
   .home-empty-state {
-    padding: 20px;
-    margin-top: 15vh; /* Adjust top margin for spacing */
+    width: 100%;
+    box-sizing: border-box;
+    padding: 16px;
+    margin-top: 4vh;
     font-size: 16px; /* Reduce font size for better fit */
-    border-radius: 10px;
+    border-radius: 14px;
     box-shadow: 0px 10px 24px rgba(0, 0, 0, 0.12);
   }
 
   .arcade-info h2,
   .home-empty-state h2 {
-    font-size: 1.9rem;
+    font-size: 1.6rem;
+    line-height: 1.1;
   }
 
   .arcade-info p,
   .home-empty-state p,
   .arcade-info .rating {
-    font-size: 16px; /* Adjust paragraph and rating font size */
+    font-size: 0.95rem;
   }
 
   .more-info {
     width: 100%;
+    box-sizing: border-box;
+    min-height: 48px;
     font-size: 1rem;
   }
 
   .stars {
     margin-top: 10px; /* Adjust spacing for stars */
+    flex-wrap: wrap;
   }
 
   .filled-star, .empty-star {
-    font-size: 30px; /* Adjust star size for mobile */
+    font-size: 24px; /* Adjust star size for mobile */
   }
 }
