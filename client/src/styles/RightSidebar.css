@@ -34,6 +34,34 @@
   width: 100%;
 }
 
+.right-sidebar .MuiInputBase-input {
+  color: #f8fafc;
+  -webkit-text-fill-color: #f8fafc;
+}
+
+.right-sidebar .MuiInputBase-input::placeholder {
+  color: rgba(248, 250, 252, 0.72);
+  opacity: 1;
+}
+
+.right-sidebar .MuiInputLabel-root {
+  color: rgba(248, 250, 252, 0.78);
+}
+
+.right-sidebar .MuiInputLabel-root.Mui-focused,
+.right-sidebar .MuiInputLabel-root.MuiFormLabel-filled {
+  color: #f8fafc;
+}
+
+.right-sidebar .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(248, 250, 252, 0.28);
+}
+
+.right-sidebar .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline,
+.right-sidebar .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(248, 250, 252, 0.52);
+}
+
 .welcome-text,
 .auth-buttons .MuiTypography-root {
   color: #f8fafc;
