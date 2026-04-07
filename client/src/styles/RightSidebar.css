@@ -34,6 +34,11 @@
   width: 100%;
 }
 
+.welcome-text,
+.auth-buttons .MuiTypography-root {
+  color: #f8fafc;
+}
+
 /* Mobile View Adjustments */
 @media only screen and (max-width: 600px) {
   .right-sidebar {

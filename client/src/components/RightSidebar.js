@@ -132,7 +132,7 @@ const RightSidebar = ({
       <div className="auth-buttons">
         {user ? (
           <>
-            <Typography variant="h6" component="div" gutterBottom>
+            <Typography variant="h6" component="div" gutterBottom className="welcome-text">
               Welcome, {user.username}
             </Typography>
             <Button
