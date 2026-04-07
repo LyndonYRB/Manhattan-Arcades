@@ -3,33 +3,36 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10%;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 110px 24px 48px;
 }
 
 .arcade-header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   font-size: 2em;
   width: 100%;
+  max-width: 960px;
 }
 
 .arcade-content {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 1000px;
+  max-width: 960px;
+  gap: 20px;
 }
 
 .arcade-left, .arcade-right {
   background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 22px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
 }
 
 .arcade-left {
   flex: 3;
-  margin-right: 20px;
 }
 
 .arcade-right {
@@ -37,39 +40,49 @@
 }
 
 .arcade-description, .arcade-slideshow, .review-section, .arcade-info, .reviews-list {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .arcade-slideshow {
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 12px;
 }
 
 .slideshow-image {
-  width: 480px;
+  width: min(100%, 520px);
   height: 250px;
   border-radius: 10px;
+  object-fit: cover;
 }
 
 .slide-button {
-  background-color: transparent;
-  border: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background-color: #f1f5f9;
+  border: 1px solid #dbe4ee;
   font-size: 1.5em;
   cursor: pointer;
-  padding: 10px;
+  padding: 0;
 }
 
 .review-section textarea {
-  width: 90%; /* Adjusted to prevent overflow */
-  border-radius: 5px;
-  padding: 10px;
+  width: 100%;
+  min-height: 112px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  padding: 12px;
   margin-bottom: 10px;
+  resize: vertical;
 }
 
 .star-rating {
   display: flex;
-  justify-content: center;
-  margin: 10px 0;
+  justify-content: flex-start;
+  margin: 10px 0 14px;
 }
 
 .star {
@@ -84,40 +97,43 @@
 }
 
 .submit-review {
-  width: 90%; /* Adjusted to fit the parent div */
+  width: 100%;
   background-color: #28a745;
   color: white;
   border: none;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 12px 16px;
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 1.2em;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .arcade-info p, .reviews-list p {
   margin: 0;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .arcade-info-div ul {
   list-style-type: none;
   padding: 0;
+  margin: 0 0 12px;
 }
 
 .arcade-info-div ul li {
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 
 .arcade-info-div strong {
   display: block;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .comment {
   background-color: #f9f9f9;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 12px 14px;
+  border-radius: 10px;
   margin-bottom: 10px;
+  border: 1px solid #e5e7eb;
 }
 
 .comment strong {
@@ -130,52 +146,66 @@
 }
 
 .back-button {
-  background-color: #007bff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0f172a;
   color: white;
-  padding: 5px 10px;
+  min-height: 40px;
+  padding: 0 14px;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 0.9em;
-  margin-top: 10px;
+  margin-top: 4px;
 }
 
 .back-button:hover {
-  background-color: #0056b3;
+  background-color: #1e293b;
+}
+
+.train-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
 }
 
 .train-icon {
   width: 30px;
   height: 30px;
-  margin: 5px;
 }
 
 /* Mobile View Adjustments */
 @media only screen and (max-width: 600px) {
+  .arcade-page {
+    padding: 96px 16px 28px;
+  }
+
   .arcade-content {
     flex-direction: column;
+    gap: 14px;
   }
 
   .arcade-header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     padding-top: 10px;
     font-size: 2em;
     width: 100%;
   }
 
   .arcade-left, .arcade-right {
-    width: 90%;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .arcade-header {
-    margin-top: 5vh;
-    margin-bottom: -5vh;
     font-size: 1.5em;
   }
 
   .slideshow-image {
-    width: 85%;
+    width: 100%;
     height: auto;
   }
 

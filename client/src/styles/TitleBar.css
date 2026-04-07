@@ -3,15 +3,32 @@
   z-index: 1000; /* Keep it above the other content */
   background-color: var(--bar-background-color);
   color: white;
-  text-align: center;
-  padding: 1px 0;
-  font-size: 15px;
-  font-weight: bold;
   position: fixed;
   width: 100%;
   top: 0;
   left: 0;
- 
+}
+
+.title-bar-content {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 12px;
+  padding: 10px 16px 8px;
+  text-align: center;
+}
+
+.title-bar h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.title-bar p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.92rem;
 }
 
 @media only screen and (max-width: 600px) {
@@ -19,16 +36,24 @@
     z-index: 1000; /* Keep it above other content */
     background-color: var(--bar-background-color);
     color: white;
-    text-align: center; /* Center text horizontally */
     padding: 0px 5px; /* Add some padding for spacing */
-    font-size: 20px;
-    font-weight: bold;
     position: fixed;
     width: 100%;
     top: 0;
     left: 0;
-    display: flex; /* Use flexbox for centering */
-    align-items: center; /* Vertically center the text */
-    justify-content: center; /* Horizontally center the text */
+  }
+
+  .title-bar-content {
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 12px;
+  }
+
+  .title-bar h1 {
+    font-size: 1.1rem;
+  }
+
+  .title-bar p {
+    font-size: 0.75rem;
   }
 }

@@ -20,7 +20,7 @@ const HomePage = ({ selectedArcade }) => {
 
   return (
     <div 
-      className="home-page-content"
+      className={`home-page-content${selectedArcade ? ' has-hero-image' : ''}`}
       style={{
         backgroundImage: selectedArcade
           ? `url(/assets/arcade-images/${selectedArcade.id}-bg.jpg)`
@@ -31,19 +31,38 @@ const HomePage = ({ selectedArcade }) => {
     >
       {selectedArcade ? (
         <div className="arcade-info">
+          <p className="arcade-eyebrow">Featured Venue</p>
           <h2>{selectedArcade.name}</h2>
-          <p>{selectedArcade.address}</p>
+          <p className="arcade-summary">
+            Explore venue details, hours, amenities, and community reviews in one focused browsing experience.
+          </p>
+          <p className="arcade-address">{selectedArcade.address}</p>
           
           {/* Display Average Rating in Stars and Numeric */}
           <div className="average-rating">
-            <p>Average Rating: {selectedArcade.average_rating} stars</p>
+            <p>Average rating: {selectedArcade.average_rating} / 5</p>
             {renderStars(selectedArcade.average_rating)}
           </div>
 
-          <Link to={`/arcades/${selectedArcade.id}`} className="more-info">More Info</Link>
+          <Link
+            to={`/arcades/${selectedArcade.id}`}
+            className="more-info"
+            aria-label={`View details for ${selectedArcade.name}`}
+          >
+            View Details
+          </Link>
         </div>
       ) : (
-        <p>Please select an arcade from the list.</p>
+        <section className="home-empty-state" aria-labelledby="home-title">
+          <p className="home-eyebrow">Location-Based Discovery App</p>
+          <h2 id="home-title">Manhattan Arcades</h2>
+          <p className="home-description">
+            Manhattan Arcades is a location-based discovery app that helps users explore arcade venues across Manhattan through a cleaner, more focused browsing experience.
+          </p>
+          <p className="home-supporting-copy">
+            Browse venues from the sidebar to compare locations, hours, amenities, and reviews without losing context.
+          </p>
+        </section>
       )}
     </div>
   );

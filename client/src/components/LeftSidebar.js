@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/LeftSidebar.css';
 
-const LeftSidebar = ({ onSelectArcade }) => {
+const LeftSidebar = ({ onSelectArcade, selectedArcadeId }) => {
   const [arcades, setArcades] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -30,7 +30,12 @@ const LeftSidebar = ({ onSelectArcade }) => {
     >
       <ul>
         {arcades.map((arcade) => (
-          <li key={arcade.id} onClick={() => onSelectArcade(arcade)}>
+          <li
+            key={arcade.id}
+            className={selectedArcadeId === arcade.id ? 'selected' : ''}
+            onClick={() => onSelectArcade(arcade)}
+            aria-current={selectedArcadeId === arcade.id ? 'true' : undefined}
+          >
             {arcade.name}
           </li>
         ))}

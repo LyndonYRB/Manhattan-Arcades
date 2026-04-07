@@ -1,70 +1,124 @@
-# Getting Started with Create React App
+# Manhattan Arcades
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Manhattan Arcades is a location-based discovery app for exploring arcade venues across Manhattan through a clean, map-driven interface. The product is designed to make niche entertainment spots easier to browse by bringing venue details, hours, amenities, transit context, and community reviews into a single focused experience.
 
-## Available Scripts
+The project combines frontend UX thinking with full-stack implementation. On the client side, the interface emphasizes responsive layouts, readable content hierarchy, and fast venue exploration. On the backend, an Express API and PostgreSQL database support venue data, authentication, and user-generated reviews.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- Browse arcade venues across Manhattan from a location-oriented interface
+- Open dedicated venue detail views with descriptions, hours, amenities, and gallery images
+- View nearby train lines to add practical transit context
+- Register and sign in to unlock authenticated actions
+- Post one review per venue and view community ratings
+- Manage personal review activity from the profile experience
+- Use the app across desktop and mobile layouts
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Tech Stack
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Frontend: React, React Router, Axios
+- Backend: Node.js, Express
+- Database: PostgreSQL
+- Auth: JWT-based authentication
+- Styling / UI: CSS, Material UI
 
-### `npm test`
+## Architecture / How It Works
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The React frontend handles routing, UI state, and authenticated interactions. It requests venue and review data from the Express API, renders venue browsing and detail views, and updates the interface based on login state.
 
-### `npm run build`
+The Express backend exposes REST endpoints for authentication, arcade listings, venue details, profile data, and review CRUD operations. PostgreSQL stores users, arcades, and comments, while JWT tokens secure protected routes such as posting, editing, and deleting reviews.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+In local development, the frontend runs from the `client/` directory and the backend runs from the project root. The client is configured to communicate with the API through `REACT_APP_API_URL` and also includes a proxy to `http://localhost:5000`.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Screens / Core User Flow
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Browse venues from the main discovery view
+- Select a venue and view detailed information
+- Sign in or register for an account
+- Post a rating and written review
+- Manage your own reviews from the profile page
 
-### `npm run eject`
+## Local Development
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Prerequisites
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Node.js 20.x recommended
+- PostgreSQL
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 1. Install dependencies
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+From the project root:
 
-## Learn More
+```bash
+npm install
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+From the client directory:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+cd client
+npm install
+```
 
-### Code Splitting
+### 2. Configure environment variables
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Create or update the root `.env` file with your local database connection and API settings:
 
-### Analyzing the Bundle Size
+```env
+DB_USER=postgres
+DB_HOST=127.0.0.1
+DB_NAME=arcade_locator
+DB_PASSWORD=your_password
+DB_PORT=5432
+JWT_SECRET=your_jwt_secret
+REACT_APP_API_URL=http://localhost:5000
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The `client/.env` file can also define `REACT_APP_API_URL`, but for local development this project is set up to work against `http://localhost:5000`.
 
-### Making a Progressive Web App
+### 3. Set up the database
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Create a PostgreSQL database named `arcade_locator`, then use the schema in the project root:
 
-### Advanced Configuration
+```bash
+psql -d arcade_locator -f schema.sql
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 4. Start the backend
 
-### Deployment
+From the project root:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```bash
+npm run dev
+```
 
-### `npm run build` fails to minify
+Or run the production-style server locally:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+npm start
+```
+
+The API runs on `http://localhost:5000`.
+
+### 5. Start the frontend
+
+From the `client/` directory:
+
+```bash
+npm start
+```
+
+The client runs on `http://localhost:3000`.
+
+## Future Improvements
+
+- Add stronger map interactions for browsing and comparing venues
+- Introduce search and filtering by neighborhood, amenities, or rating
+- Improve mobile-specific layout polish and touch interactions
+- Expand review features with sorting, editing feedback, and richer moderation states
+- Add loading, empty, and error states that feel more product-ready across all screens
+- Refine venue discovery with clearer onboarding and contextual recommendations
+
+## Why This Project Matters
+
+Manhattan Arcades demonstrates my ability to build a full-stack product with a strong frontend focus. It shows how I approach UI clarity, API-driven state, authentication-aware experiences, and information architecture to turn structured venue data into a polished, user-centered web application.

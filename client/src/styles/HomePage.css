@@ -5,13 +5,87 @@
   margin-left: 220px; /* Adjust to match the expanded width of the left sidebar */
   margin-right: 220px; /* Adjust to match the expanded width of the right sidebar */
   margin-top: 100px;
-  padding: 10px;
-  text-align: center;
+  min-height: calc(100vh - 120px);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+  position: relative;
+  isolation: isolate;
   background-repeat: no-repeat;
+  background-color: #0f172a;
+}
+
+.home-page-content.has-hero-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(120deg, rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.45) 45%, rgba(15, 23, 42, 0.65)),
+    linear-gradient(180deg, rgba(2, 6, 23, 0.08), rgba(2, 6, 23, 0.46));
+  z-index: -1;
 }
 
 .arcade-info {
-  background-color: rgba(157, 157, 157, 0.8); /* Maintain slight transparency */
+  width: min(100%, 960px);
+  max-width: 680px;
+  padding: 28px;
+  border-radius: 18px;
+  background-color: rgba(15, 23, 42, 0.68);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.arcade-eyebrow,
+.home-eyebrow {
+  margin: 0 0 10px;
+  color: #4f46e5;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.arcade-info h2,
+.home-empty-state h2 {
+  margin: 0 0 12px;
+  color: #111827;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  line-height: 1.05;
+}
+
+.arcade-info h2 {
+  color: #f8fafc;
+}
+
+.arcade-summary,
+.home-description {
+  margin: 0 0 12px;
+  color: #1f2937;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.arcade-summary,
+.arcade-address {
+  color: rgba(241, 245, 249, 0.92);
+}
+
+.arcade-address,
+.home-supporting-copy {
+  margin: 0 0 18px;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.home-empty-state {
+  max-width: 700px;
+  padding: 32px;
+  border-radius: 22px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(245, 247, 250, 0.92));
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.14);
 }
 
 /* HomePage.css */
@@ -19,7 +93,7 @@
 /* Style for the star container */
 .stars {
   display: flex;
-  justify-content: center; /* Centers the stars horizontally */
+  justify-content: flex-start;
   margin-top: 5px; /* Adds a bit of space between "Average Rating" and stars */
 }
 
@@ -39,6 +113,34 @@
   color: lightgray; /* Set the unfilled stars to light gray */
 }
 
+.average-rating p {
+  margin: 0;
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+.more-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #4f46e5, #2563eb);
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.28);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.more-info:hover,
+.more-info:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(37, 99, 235, 0.34);
+  filter: brightness(1.03);
+}
+
 
 /* Mobile View Adjustments */
 @media only screen and (max-width: 600px) {
@@ -46,42 +148,33 @@
     margin-left: 20px; /* Reduced margin for mobile view */
     margin-right: 20px; /* Reduced margin for mobile view */
     margin-top: 100px; /* Adjust top margin to avoid obstruction by the title bar */
-    padding: 5px; /* Smaller padding to fit content */
+    min-height: auto;
+    padding: 12px 0 24px;
   }
 
-  .arcade-info {
-    background-color: rgba(157, 157, 157, 0.8); /* Maintain slight transparency */
-    padding: 15px; /* Slightly reduce padding for mobile */
+  .arcade-info,
+  .home-empty-state {
+    padding: 20px;
     margin-top: 15vh; /* Adjust top margin for spacing */
     font-size: 16px; /* Reduce font size for better fit */
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 10px 24px rgba(0, 0, 0, 0.12);
   }
 
-  .arcade-info h2 {
-    font-size: 20px; /* Adjust font size for mobile */
+  .arcade-info h2,
+  .home-empty-state h2 {
+    font-size: 1.9rem;
   }
 
   .arcade-info p,
+  .home-empty-state p,
   .arcade-info .rating {
     font-size: 16px; /* Adjust paragraph and rating font size */
   }
 
-  .arcade-info .more-info {
-    padding: .2vh 1vw; /* Increase padding for a more button-like feel */
-    background-color: #007bff; /* Use a primary color for the button */
-    color: white; /* White text for contrast */
-    text-decoration: none; /* Remove underline */
-    border-radius: 10px; /* Rounded corners for a button look */
-    border: 1px solid #007bff; /* Add a border */
-    font-size: 1.2rem; /* Adjust font size for better readability */
-    text-align: center; /* Center the text */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for hover effects */
-  }
-
-  .arcade-info .more-info:hover {
-    background-color: #0056b3; /* Darken the button color on hover */
-    color: #e2e6ea; /* Lighten the text color on hover */
+  .more-info {
+    width: 100%;
+    font-size: 1rem;
   }
 
   .stars {

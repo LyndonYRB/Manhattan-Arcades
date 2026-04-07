@@ -1,20 +1,20 @@
-# Arcade Locator Web App
+# Manhattan Arcades
 
-A full-stack web application that allows users to search, view, and review arcades located in Manhattan.
+Manhattan Arcades is a location-based discovery app for exploring arcade venues across Manhattan. It brings venue details, operating hours, nearby transit context, amenities, and user reviews into a more focused browsing experience.
 
 ## Features
-- **Arcade Information**: Display arcade details such as location, hours of operation, and available amenities.
-- **Rating System**: Users can rate and leave reviews for arcades.
-- **Login and Registration**: Users can register, log in, and access their profile.
-- **Nearest Train Information**: Display train symbols for the nearest stations to each arcade.
-- **Responsive Design**: Optimized for mobile and desktop devices.
+- **Venue discovery**: Browse arcade locations across Manhattan and open dedicated detail views.
+- **Clear venue details**: Review hours of operation, amenities, and supporting venue information in one place.
+- **Community reviews**: Authenticated users can rate venues and leave comments.
+- **Transit-aware browsing**: Surface nearby train lines to add local context for each arcade.
+- **Responsive interface**: Optimized for desktop and mobile exploration.
 
 ## Technologies Used
-- **Frontend**: React, Material UI
+- **Frontend**: React, React Router, Material UI
 - **Backend**: Node.js, Express
 - **Database**: PostgreSQL
 - **Authentication**: JWT (JSON Web Token)
-- **Deployment**: (not yet)
+- **Deployment**: Ready for local development; deployment configuration can be added as needed.
 
 ## Setup Instructions
 

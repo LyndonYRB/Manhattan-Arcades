@@ -19,7 +19,10 @@ function App() {
   return (
     <Router>
       <TitleBar />
-      <LeftSidebar onSelectArcade={handleSelectArcade} /> {/* Pass the function as a prop */}
+      <LeftSidebar
+        onSelectArcade={handleSelectArcade}
+        selectedArcadeId={selectedArcade?.id}
+      /> {/* Pass the function as a prop */}
       <RightSidebar user={user} setUser={setUser} />
       <Routes>
         <Route path="/" element={<HomePage selectedArcade={selectedArcade} />} />

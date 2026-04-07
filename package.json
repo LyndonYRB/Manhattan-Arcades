@@ -12,7 +12,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Location-based web app for discovering arcade venues across Manhattan.",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
