@@ -182,3 +182,6 @@
   transition: background-color 9999s ease-in-out 0s;
   box-shadow: 0 0 0 1000px transparent inset !important;
 }
+.right-sidebar .MuiFormControl-root .MuiInputLabel-root {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
