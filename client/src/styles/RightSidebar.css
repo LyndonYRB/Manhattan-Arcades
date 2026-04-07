@@ -34,32 +34,52 @@
   width: 100%;
 }
 
-.right-sidebar .MuiInputBase-input {
-  color: #f8fafc;
-  -webkit-text-fill-color: #f8fafc;
+.right-sidebar .MuiFormLabel-root,
+.right-sidebar .MuiInputLabel-root {
+  color: rgba(248, 250, 252, 0.82) !important;
 }
 
-.right-sidebar .MuiInputBase-input::placeholder {
-  color: rgba(248, 250, 252, 0.72);
+.right-sidebar .MuiFormLabel-root.Mui-focused,
+.right-sidebar .MuiFormLabel-root.MuiFormLabel-filled,
+.right-sidebar .MuiInputLabel-root.Mui-focused,
+.right-sidebar .MuiInputLabel-root.MuiFormLabel-filled {
+  color: #ffffff !important;
+}
+
+.right-sidebar .MuiInputBase-input,
+.right-sidebar .MuiOutlinedInput-input,
+.right-sidebar input {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.right-sidebar .MuiInputBase-input::placeholder,
+.right-sidebar .MuiOutlinedInput-input::placeholder,
+.right-sidebar input::placeholder,
+.right-sidebar input::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.74) !important;
   opacity: 1;
 }
 
-.right-sidebar .MuiInputLabel-root {
-  color: rgba(248, 250, 252, 0.78);
-}
-
-.right-sidebar .MuiInputLabel-root.Mui-focused,
-.right-sidebar .MuiInputLabel-root.MuiFormLabel-filled {
-  color: #f8fafc;
+.right-sidebar input:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.74) !important;
 }
 
 .right-sidebar .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
-  border-color: rgba(248, 250, 252, 0.28);
+  border-color: rgba(248, 250, 252, 0.28) !important;
 }
 
 .right-sidebar .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline,
 .right-sidebar .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: rgba(248, 250, 252, 0.52);
+  border-color: rgba(248, 250, 252, 0.52) !important;
+}
+
+.right-sidebar input:-webkit-autofill,
+.right-sidebar input:-webkit-autofill:hover,
+.right-sidebar input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff !important;
+  box-shadow: 0 0 0 1000px transparent inset;
+  transition: background-color 9999s ease-in-out 0s;
 }
 
 .welcome-text,
@@ -106,29 +126,4 @@
   .auth-buttons input {
     width: 100%; /* Buttons and inputs take full width within the sidebar */
   }
-}
-/* Fix placeholder + input text visibility */
-.right-sidebar input {
-  color: #ffffff;
-}
-
-.right-sidebar input::placeholder {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-/* For better browser support */
-.right-sidebar input::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.right-sidebar input:-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.MuiInputBase-input {
-  color: #ffffff !important;
-}
-
-.MuiInputBase-input::placeholder {
-  color: rgba(255, 255, 255, 0.7) !important;
 }
