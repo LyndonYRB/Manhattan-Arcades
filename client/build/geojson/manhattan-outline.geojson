@@ -1,0 +1,30 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Manhattan outline",
+        "source": "Simplified portfolio demo boundary"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-74.0193, 40.7003],
+            [-73.9958, 40.7039],
+            [-73.9712, 40.7274],
+            [-73.9419, 40.7829],
+            [-73.9209, 40.8508],
+            [-73.9349, 40.8789],
+            [-73.9487, 40.8709],
+            [-73.9588, 40.8121],
+            [-73.9822, 40.7646],
+            [-74.0104, 40.7242],
+            [-74.0193, 40.7003]
+          ]
+        ]
+      }
+    }
+  ]
+}

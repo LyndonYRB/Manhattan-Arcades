@@ -12,8 +12,27 @@ import './styles/globals.css';
 function App() {
   const [user, setUser] = useState(null);
   const [selectedArcade, setSelectedArcade] = useState(null); // State to hold the selected arcade
+  const [arcades, setArcades] = useState([]);
   const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 600);
   const [activeMobilePanel, setActiveMobilePanel] = useState(null);
+
+  useEffect(() => {
+    const fetchArcades = async () => {
+      try {
+        const apiBaseUrl = process.env.REACT_APP_API_URL || '';
+        const response = await fetch(`${apiBaseUrl}/api/arcades`);
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
+        const data = await response.json();
+        setArcades(data);
+      } catch (error) {
+        console.error('Error fetching arcades:', error);
+      }
+    };
+
+    fetchArcades();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -70,6 +89,7 @@ function App() {
           onClosePanels={closePanels}
         />
         <LeftSidebar
+          arcades={arcades}
           onSelectArcade={handleSelectArcade}
           selectedArcadeId={selectedArcade?.id}
           isMobile={isMobile}
@@ -92,7 +112,16 @@ function App() {
           />
         ) : null}
         <Routes>
-          <Route path="/" element={<HomePage selectedArcade={selectedArcade} />} />
+          <Route
+            path="/"
+            element={
+              <HomePage
+                arcades={arcades}
+                selectedArcade={selectedArcade}
+                onSelectArcade={handleSelectArcade}
+              />
+            }
+          />
           <Route path="/profile" element={<ProfilePage user={user} />} />
           {/* Pass user and setUser to ArcadePage for reactivity */}
           <Route path="/arcades/:id" element={<ArcadePage user={user} setUser={setUser} />} />

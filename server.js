@@ -116,17 +116,114 @@ app.post('/api/auth/login', async (req, res) => {
 
 // CREATE: Add a new arcade
 app.post('/api/arcades', authenticateToken, async (req, res) => {
-  const { name, address, days_open, hours_of_operation, serves_alcohol } = req.body;
+  const { name, address, days_open, hours_of_operation, serves_alcohol, latitude, longitude } = req.body;
 
   try {
     const newArcade = await pool.query(
-      'INSERT INTO arcades (name, address, days_open, hours_of_operation, serves_alcohol) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [name, address, days_open, hours_of_operation, serves_alcohol]
+      `INSERT INTO arcades (
+        name,
+        address,
+        days_open,
+        hours_of_operation,
+        serves_alcohol,
+        latitude,
+        longitude
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING *`,
+      [name, address, days_open, hours_of_operation, serves_alcohol, latitude ?? null, longitude ?? null]
     );
     res.json(newArcade.rows[0]);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
+  }
+});
+
+// GIS: Return arcade venues as a GeoJSON FeatureCollection.
+app.get('/api/venues/geojson', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT json_build_object(
+        'type', 'FeatureCollection',
+        'features', COALESCE(json_agg(feature), '[]'::json)
+      ) AS geojson
+      FROM (
+        SELECT json_build_object(
+          'type', 'Feature',
+          'geometry', ST_AsGeoJSON(arcades.location::geometry)::json,
+          'properties', json_build_object(
+            'id', arcades.id,
+            'name', arcades.name,
+            'address', arcades.address,
+            'rating', COALESCE(ROUND(AVG(comments.rating), 1), 0),
+            'serves_food', arcades.serves_food,
+            'serves_alcohol', arcades.serves_alcohol
+          )
+        ) AS feature
+        FROM arcades
+        LEFT JOIN comments ON arcades.id = comments.arcade_id
+        WHERE arcades.location IS NOT NULL
+        GROUP BY arcades.id
+        ORDER BY arcades.name
+      ) features;
+    `);
+
+    res.json(result.rows[0].geojson);
+  } catch (err) {
+    console.error('Error building venue GeoJSON:', err.message);
+    res.status(500).json({ msg: 'Unable to build venue GeoJSON' });
+  }
+});
+
+// GIS: Find venues near a coordinate using PostGIS distance in meters.
+app.get('/api/venues/nearby', async (req, res) => {
+  const lat = Number(req.query.lat);
+  const lng = Number(req.query.lng);
+  const radius = Number(req.query.radius ?? 1000);
+
+  if (!Number.isFinite(lat) || lat < -90 || lat > 90) {
+    return res.status(400).json({ msg: 'lat must be a number between -90 and 90' });
+  }
+
+  if (!Number.isFinite(lng) || lng < -180 || lng > 180) {
+    return res.status(400).json({ msg: 'lng must be a number between -180 and 180' });
+  }
+
+  if (!Number.isFinite(radius) || radius <= 0 || radius > 50000) {
+    return res.status(400).json({ msg: 'radius must be a positive number up to 50000 meters' });
+  }
+
+  try {
+    const nearbyArcades = await pool.query(
+      `
+        WITH search_point AS (
+          SELECT ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography AS geog
+        )
+        SELECT
+          arcades.id,
+          arcades.name,
+          arcades.address,
+          arcades.latitude,
+          arcades.longitude,
+          COALESCE(ROUND(AVG(comments.rating), 1), 0) AS average_rating,
+          -- ST_Distance returns meters because both values are geography.
+          ROUND(ST_Distance(arcades.location, search_point.geog)::numeric, 2) AS distance_meters
+        FROM arcades
+        CROSS JOIN search_point
+        LEFT JOIN comments ON arcades.id = comments.arcade_id
+        WHERE arcades.location IS NOT NULL
+          AND ST_DWithin(arcades.location, search_point.geog, $3)
+        GROUP BY arcades.id, search_point.geog
+        ORDER BY ST_Distance(arcades.location, search_point.geog) ASC;
+      `,
+      [lng, lat, radius]
+    );
+
+    res.json(nearbyArcades.rows);
+  } catch (err) {
+    console.error('Error fetching nearby venues:', err.message);
+    res.status(500).json({ msg: 'Unable to fetch nearby venues' });
   }
 });
 
