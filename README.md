@@ -103,9 +103,15 @@ The migration:
 
 - Enables the PostGIS extension
 - Adds `latitude`, `longitude`, and `location geography(Point, 4326)` columns to `arcades`
-- Backfills sample coordinates for the existing Manhattan arcade venues
+- Backfills sample venue coordinates for the existing Manhattan arcade venues
 - Keeps `location` synchronized from latitude/longitude with a trigger
 - Adds `idx_arcades_location` as a GiST spatial index
+
+If `migrations/001_add_postgis_venue_locations.sql` has already been applied, run the corrective coordinate migration:
+
+```bash
+psql "$DATABASE_URL" -f migrations/002_correct_venue_coordinates.sql
+```
 
 ## Development
 

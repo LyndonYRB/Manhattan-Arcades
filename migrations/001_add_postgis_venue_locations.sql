@@ -31,17 +31,17 @@ FOR EACH ROW
 EXECUTE FUNCTION arcades_set_location();
 
 -- Sample Manhattan arcade coordinates, matched to the existing seed venues by name.
-UPDATE arcades SET latitude = 40.7159, longitude = -73.9970 WHERE name = 'OSNYC';
-UPDATE arcades SET latitude = 40.7577, longitude = -73.9883 WHERE name = 'Bowlero Times Square';
-UPDATE arcades SET latitude = 40.7476, longitude = -73.9858 WHERE name = 'VR World NYC';
-UPDATE arcades SET latitude = 40.8563, longitude = -73.9320 WHERE name = 'Uptown Gaming Bar and Lounge';
-UPDATE arcades SET latitude = 40.7131, longitude = -73.9974 WHERE name = 'Chinatown Fair Family Fun Center';
-UPDATE arcades SET latitude = 40.7291, longitude = -73.9989 WHERE name = 'The Uncommons';
-UPDATE arcades SET latitude = 40.7447, longitude = -73.9951 WHERE name = 'Barcade (Chelsea)';
-UPDATE arcades SET latitude = 40.7422, longitude = -73.9964 WHERE name = '8-Bit Bites (7th Ave)';
-UPDATE arcades SET latitude = 40.7286, longitude = -73.9891 WHERE name = 'Barcade (St.Mark''s Place)';
-UPDATE arcades SET latitude = 40.7269, longitude = -73.9888 WHERE name = '8-Bit Bites';
-UPDATE arcades SET latitude = 40.7566, longitude = -73.9887 WHERE name = 'Dave & Buster''s NYC';
+UPDATE arcades SET latitude = 40.7159526, longitude = -73.9967427 WHERE name = 'OSNYC';
+UPDATE arcades SET latitude = 40.7576550, longitude = -73.9870647 WHERE name = 'Bowlero Times Square';
+UPDATE arcades SET latitude = 40.7482147, longitude = -73.9842503 WHERE name = 'VR World NYC';
+UPDATE arcades SET latitude = 40.8571855, longitude = -73.9326079 WHERE name = 'Uptown Gaming Bar and Lounge';
+UPDATE arcades SET latitude = 40.7139951, longitude = -73.9986049 WHERE name = 'Chinatown Fair Family Fun Center';
+UPDATE arcades SET latitude = 40.7294160, longitude = -73.9987086 WHERE name = 'The Uncommons';
+UPDATE arcades SET latitude = 40.7442179, longitude = -73.9945262 WHERE name = 'Barcade (Chelsea)';
+UPDATE arcades SET latitude = 40.7430265, longitude = -73.9960937 WHERE name = '8-Bit Bites (7th Ave)';
+UPDATE arcades SET latitude = 40.7290914, longitude = -73.9895672 WHERE name = 'Barcade (St.Mark''s Place)';
+UPDATE arcades SET latitude = 40.7265742, longitude = -73.9893763 WHERE name = '8-Bit Bites';
+UPDATE arcades SET latitude = 40.7562126, longitude = -73.9884380 WHERE name = 'Dave & Buster''s NYC';
 
 -- Rebuild any existing points after the coordinate backfill.
 UPDATE arcades
