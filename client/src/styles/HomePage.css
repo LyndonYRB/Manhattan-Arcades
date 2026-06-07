@@ -18,10 +18,10 @@
 }
 
 .home-layout {
-  width: min(100%, 1180px);
+  width: min(100%, 1320px);
   display: grid;
-  grid-template-columns: minmax(280px, 0.85fr) minmax(360px, 1.15fr);
-  gap: 24px;
+  grid-template-columns: minmax(420px, 0.9fr) minmax(520px, 1.1fr);
+  gap: 32px;
   align-items: center;
 }
 
@@ -41,6 +41,7 @@
 
 .arcade-info {
   width: 100%;
+  box-sizing: border-box;
   padding: 28px;
   border-radius: 18px;
   background-color: rgba(15, 23, 42, 0.68);
@@ -93,6 +94,7 @@
 
 .home-empty-state {
   max-width: 100%;
+  box-sizing: border-box;
   padding: 32px;
   border-radius: 22px;
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(245, 247, 250, 0.92));
@@ -208,5 +210,17 @@
 
   .filled-star, .empty-star {
     font-size: 24px; /* Adjust star size for mobile */
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1400px) {
+  .home-page-content {
+    margin-left: 112px;
+    margin-right: 112px;
+  }
+
+  .home-layout {
+    grid-template-columns: minmax(360px, 0.9fr) minmax(460px, 1.1fr);
+    gap: 24px;
   }
 }
